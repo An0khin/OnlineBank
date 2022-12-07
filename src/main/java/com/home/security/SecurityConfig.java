@@ -16,6 +16,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
+                .formLogin(login -> login.permitAll())
+                .logout(out -> out.logoutUrl("/logout").logoutSuccessUrl("/").permitAll())
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .rememberMe(remember -> remember.disable())
                 .httpBasic(Customizer.withDefaults())

@@ -14,7 +14,7 @@ public class DebitCard {
     private Double money;
 
     @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "account_id", nullable = false, referencedColumnName = "id")
     private Account account;
 
     @Override

@@ -19,8 +19,8 @@ public class AccountDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountDAO.findAccountByLogin(username);
 
-        System.out.println(account);
-        account.getDebitCards().forEach(System.out::println);
+//        System.out.println(account);
+//        account.getDebitCards().forEach(System.out::println);
 
         if(account != null) {
             return new AccountDetails(account, passwordEncoder);

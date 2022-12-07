@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class AccountDetails implements UserDetails {
     private Account account;
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder; //DELETE AFTER
 
     public AccountDetails(final Account account, final PasswordEncoder passwordEncoder) {
         this.account = account;
@@ -22,7 +22,7 @@ public class AccountDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return passwordEncoder.encode(account.getPassword());
+        return passwordEncoder.encode(account.getPassword()); //CHANGE!!!!!
     }
 
     @Override

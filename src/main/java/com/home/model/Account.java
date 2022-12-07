@@ -1,6 +1,9 @@
 package com.home.model;
 
 import com.home.model.card.DebitCard;
+import com.home.model.repository.DebitCardRepository;
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.*;
@@ -23,7 +26,7 @@ public class Account {
     @Column
     private Integer phoneNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.EAGER)
     private List<DebitCard> debitCards;
 
     public Account(String login, String password) {
@@ -32,6 +35,10 @@ public class Account {
     }
 
     public Account() {}
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getLogin() {
         return login;
