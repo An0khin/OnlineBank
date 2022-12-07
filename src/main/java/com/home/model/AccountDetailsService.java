@@ -18,6 +18,10 @@ public class AccountDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountDAO.findAccountByLogin(username);
+
+        System.out.println(account);
+        account.getDebitCards().forEach(System.out::println);
+
         if(account != null) {
             return new AccountDetails(account, passwordEncoder);
         } else {

@@ -48,7 +48,7 @@ public class JpaConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/onlinebank");
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUsername("postgres");
         dataSource.setPassword("1234");

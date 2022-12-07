@@ -1,15 +1,25 @@
 //package com.home.model.card;
 //
-//import com.home.model.tables.Cards;
-//import jakarta.persistence.*;
+//import com.home.model.tables.AccountToCreditCards;
+////import com.home.model.tables.AccountToDebitCards;
+//import javax.persistence.*;
 //
 //@Entity
-//@Table(name = "CreditCards")
+//@Table(name = "creditCards")
 //public class CreditCard {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
 //    private Integer id;
 //
+//    @Column
+//    private Double moneyLimit;
+//
+//    @Column
+//    private Double currentMoney;
+//
+//    @Column
+//    private Double percent;
+//
 //    @ManyToOne
-//    private Cards cards;
+//    private AccountToCreditCards cards;
 //}
