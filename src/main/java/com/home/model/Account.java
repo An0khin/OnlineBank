@@ -1,9 +1,8 @@
 package com.home.model;
 
+import com.home.model.card.CreditCard;
 import com.home.model.card.DebitCard;
-import com.home.model.repository.DebitCardRepository;
-import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.home.model.card.Saving;
 
 import javax.persistence.*;
 import java.util.*;
@@ -27,7 +26,13 @@ public class Account {
     private Integer phoneNumber;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.EAGER)
-    private List<DebitCard> debitCards;
+    private Set<DebitCard> debitCards;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.EAGER)
+    private Set<CreditCard> creditCards;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.EAGER)
+    private Set<Saving> savings;
 
     public Account(String login, String password) {
         this.login = login;
@@ -48,8 +53,16 @@ public class Account {
         return password;
     }
 
-    public List<DebitCard> getDebitCards() {
-        return new ArrayList<>(debitCards);
+    public Set<DebitCard> getDebitCards() {
+        return new HashSet<>(debitCards);
+    }
+
+    public Set<CreditCard> getCreditCards() {
+        return new HashSet<>(creditCards);
+    }
+
+    public Set<Saving> getSavings() {
+        return new HashSet<>(savings);
     }
 
     @Override

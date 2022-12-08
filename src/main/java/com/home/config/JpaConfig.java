@@ -1,5 +1,7 @@
 package com.home.config;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -55,4 +57,10 @@ public class JpaConfig {
 
         return dataSource;
     }
+
+//    @Bean
+//    public SessionFactory sessionFactory(EntityManagerFactory entityManagerFactory) {
+//        Session session = entityManagerFactory.unwrap(org.hibernate.Session.class);
+//        return session.getSessionFactory();
+//    }
 }
