@@ -13,17 +13,18 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column
+    @Column(nullable = false)
     private String login;
-    @Column
+    @Column(nullable = false)
     private String password;
-    @Column
-    private String name;
-    @Column
-    private String surname;
-    @Column
-    private Integer phoneNumber;
+    @Column(nullable = false)
+    private String role;
+
+    @OneToOne(mappedBy = "account")
+    private Passport passport;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.EAGER)
+    private Set<Phone> phones;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.EAGER)
     private Set<DebitCard> debitCards;
@@ -65,15 +66,29 @@ public class Account {
         return new HashSet<>(savings);
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", phoneNumber=" + phoneNumber +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

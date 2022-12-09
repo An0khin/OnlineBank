@@ -11,10 +11,10 @@ public class Saving {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(nullable = false)
     private Double money;
 
-    @Column
+    @Column(nullable = false)
     private Double percent;
 
     @ManyToOne

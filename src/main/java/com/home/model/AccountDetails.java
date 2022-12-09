@@ -1,10 +1,13 @@
 package com.home.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AccountDetails implements UserDetails {
     private Account account;
@@ -17,7 +20,9 @@ public class AccountDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<SimpleGrantedAuthority> set = new HashSet<>(); //CHANGE!!!!!
+        set.add(new SimpleGrantedAuthority("ROLE_" + account.getRole()));
+        return set;
     }
 
     @Override

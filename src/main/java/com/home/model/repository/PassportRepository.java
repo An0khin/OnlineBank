@@ -1,9 +1,9 @@
 package com.home.model.repository;
 
-import com.home.model.card.Saving;
+import com.home.model.Passport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SavingRepository extends JpaRepository<Saving, Long> {
+public interface PassportRepository extends JpaRepository<Passport, Long> {
 }

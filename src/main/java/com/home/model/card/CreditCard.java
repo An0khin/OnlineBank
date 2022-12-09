@@ -10,13 +10,13 @@ public class CreditCard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(nullable = false)
     private Double moneyLimit;
 
-    @Column
+    @Column(nullable = false)
     private Double currentMoney;
 
-    @Column
+    @Column(nullable = false)
     private Double percent;
 
     @ManyToOne

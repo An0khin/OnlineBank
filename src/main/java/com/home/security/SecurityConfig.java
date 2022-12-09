@@ -1,5 +1,6 @@
 package com.home.security;
 
+import com.home.model.repository.DebitCardRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -12,13 +13,20 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private final DebitCardRepository debitCardRepository;
+
+    public SecurityConfig(DebitCardRepository debitCardRepository) {
+        this.debitCardRepository = debitCardRepository;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
                 .formLogin(login -> login.permitAll())
-                .logout(out -> out.logoutUrl("/logout").logoutSuccessUrl("/").permitAll())
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .logout(out -> out.logoutUrl("/logout").logoutSuccessUrl("/"))
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/register").hasAnyRole("ADMIN", "OWNER")
+                        .anyRequest().authenticated())
                 .rememberMe(remember -> remember.disable())
                 .httpBasic(Customizer.withDefaults())
                 .build();

@@ -1,5 +1,7 @@
 package com.home.model;
 
+import com.home.model.card.DebitCard;
+import com.home.model.repository.DebitCardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,11 +17,15 @@ public class AccountDetailsService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private DebitCardRepository debitCardRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountDAO.findAccountByLogin(username);
 
         System.out.println(account);
+
         account.getDebitCards().forEach(System.out::println);
         account.getCreditCards().forEach(System.out::println);
         account.getSavings().forEach(System.out::println);
