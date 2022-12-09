@@ -37,6 +37,29 @@ public class Passport {
                 '}';
     }
 
+    public Passport() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public LocalDate getDateBirth() {
+        return dateBirth;
+    }
+
+    public Integer getSeries() {
+        return series;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

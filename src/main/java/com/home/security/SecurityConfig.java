@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .formLogin(login -> login.permitAll())
                 .logout(out -> out.logoutUrl("/logout").logoutSuccessUrl("/"))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/register").hasAnyRole("ADMIN", "OWNER")
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/register").permitAll()//.hasAnyRole("ADMIN", "OWNER")
                         .anyRequest().authenticated())
                 .rememberMe(remember -> remember.disable())
                 .httpBasic(Customizer.withDefaults())
