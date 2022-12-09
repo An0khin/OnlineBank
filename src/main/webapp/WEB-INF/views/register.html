@@ -9,28 +9,6 @@
 </head>
 <body>
     <form th:method="POST">
-        <div th:object="${newAccount}">
-            <label for="login">Login:</label>
-            <input type="email" th:field="*{login}" id="login" name="login">
-
-            <br>
-
-            <label for="password">Password:</label>
-            <input type="password" th:field="*{password}" id="password" name="password">
-
-            <br>
-
-            <label for="role">Role:</label>
-            <select name="role" id="role" th:field="*{role}">
-                <option value="ADMIN">ADMIN</option>
-                <option value="USER">USER</option>
-            </select>
-
-            <!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
-            <!--    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>-->
-            <br>
-        </div>
-
         <div th:object="${newPassport}">
             <label for="name">Name:</label>
             <input type="text" th:field="*{name}" id="name" name="name">
@@ -52,13 +30,39 @@
 
             <br>
 
-            <label for="number">Date of birth:</label>
+            <label for="number">Number:</label>
             <input type="number" id="number" th:field="*{number}" name="number">
 
             <!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
             <!--    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>-->
             <br>
         </div>
+
+        <br>
+        <br>
+        <br>
+
+        <div th:object="${newAccount}">
+            <label for="login">Login:</label>
+            <input type="email" th:field="*{login}" id="login" name="login">
+
+            <br>
+
+            <label for="password">Password:</label>
+            <input type="password" th:field="*{password}" id="password" name="password">
+
+            <br>
+
+            <label for="role">Role:</label>
+            <select name="role" id="role" th:field="*{role}">
+                <option value="ADMIN">ADMIN</option>
+                <option value="USER">USER</option>
+            </select>
+
+            <!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
+            <!--    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>-->
+        </div>
+
 
         <input type="submit" value="Create"/>
     </form>

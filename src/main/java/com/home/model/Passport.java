@@ -1,7 +1,10 @@
 package com.home.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "passports")
@@ -15,7 +18,8 @@ public class Passport {
     @Column(nullable = false)
     private String surname;
     @Column(columnDefinition = "DATE", nullable = false)
-    private LocalDate dateBirth;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dateBirth;
     @Column(nullable = false)
     private Integer series;
     @Column(nullable = false)
@@ -40,6 +44,14 @@ public class Passport {
     public Passport() {
     }
 
+    public Passport(String name, String surname, Date dateBirth, Integer series, Integer number) {
+        this.name = name;
+        this.surname = surname;
+        this.dateBirth = dateBirth;
+        this.series = series;
+        this.number = number;
+    }
+
     public String getName() {
         return name;
     }
@@ -48,7 +60,7 @@ public class Passport {
         return surname;
     }
 
-    public LocalDate getDateBirth() {
+    public Date getDateBirth() {
         return dateBirth;
     }
 
@@ -68,7 +80,7 @@ public class Passport {
         this.surname = surname;
     }
 
-    public void setDateBirth(LocalDate dateBirth) {
+    public void setDateBirth(Date dateBirth) {
         this.dateBirth = dateBirth;
     }
 

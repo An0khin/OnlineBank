@@ -31,8 +31,9 @@ public class AccountController {
     @PostMapping("/register")
     public String registerNewAccount(@ModelAttribute("newAccount") Account account,
                                      @ModelAttribute("newPassport") Passport passport) {
+
         passport.setAccount(account);
-        System.out.println(account);
+
         accountRepository.save(account);
         passportRepository.save(passport);
         debitCardRepository.save(new DebitCard(account));
