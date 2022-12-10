@@ -1,7 +1,5 @@
 package com.home.config;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;

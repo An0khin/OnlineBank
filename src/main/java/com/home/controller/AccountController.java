@@ -1,11 +1,7 @@
 package com.home.controller;
 
-import com.home.model.Account;
-import com.home.model.Passport;
+import com.home.model.*;
 import com.home.model.card.DebitCard;
-import com.home.model.repository.AccountRepository;
-import com.home.model.repository.DebitCardRepository;
-import com.home.model.repository.PassportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AccountController {
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountDAO accountDAO;
     @Autowired
-    private DebitCardRepository debitCardRepository;
+    private PassportDAO passportDAO;
     @Autowired
-    private PassportRepository passportRepository;
+    private CardDAO cardDAO;
 
     @GetMapping("/register")
     public String registerPage(Model model) {
@@ -31,12 +27,10 @@ public class AccountController {
     @PostMapping("/register")
     public String registerNewAccount(@ModelAttribute("newAccount") Account account,
                                      @ModelAttribute("newPassport") Passport passport) {
-
         passport.setAccount(account);
-
-        accountRepository.save(account);
-        passportRepository.save(passport);
-        debitCardRepository.save(new DebitCard(account));
+        accountDAO.save(account);
+        passportDAO.save(passport);
+        cardDAO.saveDebitCard(new DebitCard(account));
         return "redirect:/";
     }
 }

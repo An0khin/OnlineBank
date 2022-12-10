@@ -1,8 +1,6 @@
 package com.home.model.card;
 
 import com.home.model.Account;
-import com.home.model.repository.DebitCardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
@@ -37,24 +35,15 @@ public class DebitCard {
         this.account = account;
     }
 
-    //    public void transferTo(Card other, Double otherMoney) {
-//        if(takeMoney(otherMoney)) {
-//            accrueMoney(otherMoney);
-//        }
-//        debitCardRepository.save(this);
-//    }
-//
-//    public void accrueMoney(Double money) {
-//        this.money += money;
-//        debitCardRepository.save(this);
-//    }
-//
-//    public boolean takeMoney(Double takingMoney) {
-//        if(takingMoney <= money) {
-//            money -= takingMoney;
-//            debitCardRepository.save(this);
-//            return true;
-//        }
-//        return false;
-//    }
+    public Integer getId() {
+        return id;
+    }
+
+    public Double getMoney() {
+        return money;
+    }
+
+    public void setMoney(Double money) {
+        this.money = money;
+    }
 }

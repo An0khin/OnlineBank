@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DebitCardRepository extends JpaRepository<DebitCard, Long> {
+public interface DebitCardRepository extends JpaRepository<DebitCard, Integer> {
+    List<DebitCard> findAllByAccountId(Integer id);
 }
