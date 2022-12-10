@@ -3,7 +3,6 @@ package com.home.model;
 import com.home.model.card.DebitCard;
 import com.home.model.repository.DebitCardRepository;
 import com.home.model.repository.PassportRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
