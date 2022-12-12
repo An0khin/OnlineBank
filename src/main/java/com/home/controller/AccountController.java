@@ -5,6 +5,10 @@ import com.home.model.card.DebitCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.AbstractBindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,12 +29,19 @@ public class AccountController {
         return "register";
     }
     @PostMapping("/register")
-    public String registerNewAccount(@ModelAttribute("newAccount") Account account,
-                                     @ModelAttribute("newPassport") Passport passport) {
-        passport.setAccount(account);
-        accountDAO.save(account);
-        passportDAO.save(passport);
-        cardDAO.saveDebitCard(new DebitCard(account));
-        return "redirect:/";
+    public String registerNewAccount(@ModelAttribute("newPassport") Passport passport,
+                                     @ModelAttribute("newAccount") Account account,
+                                     BindingResult result) {
+        if(accountDAO.findAccountByLogin(account.getLogin()) == null) {
+            passport.setAccount(account);
+            accountDAO.save(account);
+            passportDAO.save(passport);
+            cardDAO.saveDebitCard(new DebitCard(account));
+            return "redirect:/";
+        } else {
+            result.addError(new FieldError("newAccount", "login", "Account with this login exists"));
+            return "register";
+        }
+
     }
 }

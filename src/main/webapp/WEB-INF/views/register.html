@@ -32,6 +32,9 @@
 
             <label for="number">Number:</label>
             <input type="number" id="number" th:field="*{number}" name="number">
+<!--            <div th:if="${#fields.hasErrors('login')}">-->
+<!--                <p>Login error</p>-->
+<!--            </div>-->
 
             <!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
             <!--    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>-->
@@ -43,8 +46,13 @@
         <br>
 
         <div th:object="${newAccount}">
+<!--            <div th:if="${#fields.hasErrors('*')}">-->
+<!--                <p th:each="err : ${#fields.errors('*')}" th:text="${err.}"></p>-->
+<!--            </div>-->
+
             <label for="login">Login:</label>
             <input type="email" th:field="*{login}" id="login" name="login">
+            <div style="color:red;" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"/>
 
             <br>
 
