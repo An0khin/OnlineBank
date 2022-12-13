@@ -2,6 +2,7 @@ package com.home.controller;
 
 import com.home.model.*;
 import com.home.model.card.DebitCard;
+import com.home.model.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class AccountController {
     @Autowired
@@ -21,6 +24,8 @@ public class AccountController {
     private PassportDAO passportDAO;
     @Autowired
     private CardDAO cardDAO;
+    @Autowired
+    private AccountRepository accountRepository;
 
     @GetMapping("/register")
     public String registerPage(Model model) {
@@ -42,6 +47,25 @@ public class AccountController {
             result.addError(new FieldError("newAccount", "login", "Account with this login exists"));
             return "register";
         }
+    }
+    @GetMapping("/update")
+    public String updatePage(Model model, HttpServletRequest request) {
+        String login = request.getUserPrincipal().getName();
 
+        Account account = accountDAO.findAccountByLogin(login);
+        model.addAttribute("account", account);
+        model.addAttribute("login", login);
+
+        return "update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute("account") Account account, HttpServletRequest request) {
+        String login = request.getUserPrincipal().getName();
+
+        Account beforeAccount = accountDAO.findAccountByLogin(login);
+
+        accountDAO.update(beforeAccount.getId(), account);
+        return "update";
     }
 }

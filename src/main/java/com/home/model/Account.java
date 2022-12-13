@@ -7,7 +7,7 @@ import com.home.model.card.Saving;
 import javax.persistence.*;
 import java.util.*;
 
-@Entity
+@Entity(name = "accounts")
 @Table(name = "accounts")
 public class Account {
     @Id
@@ -54,6 +54,10 @@ public class Account {
         return password;
     }
 
+    public Passport getPassport() {
+        return passport;
+    }
+
     public Set<DebitCard> getDebitCards() {
         return new HashSet<>(debitCards);
     }
@@ -82,6 +86,10 @@ public class Account {
         this.role = role;
     }
 
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -89,6 +97,7 @@ public class Account {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
+                ", passport=" + passport +
                 '}';
     }
 }

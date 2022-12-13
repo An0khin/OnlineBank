@@ -12,6 +12,10 @@ public class PassportDAO {
         passportRepository.findAll();
     }
 
+    public void update() {
+        passportRepository.findAll();
+    }
+
     public void save(Passport passport) {
         passportRepository.save(passport);
     }
