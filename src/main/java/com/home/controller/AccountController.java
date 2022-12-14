@@ -33,11 +33,12 @@ public class AccountController {
         model.addAttribute("newPassport", new Passport());
         return "register";
     }
+
     @PostMapping("/register")
     public String registerNewAccount(@ModelAttribute("newPassport") Passport passport,
                                      @ModelAttribute("newAccount") Account account,
                                      BindingResult result) {
-        if(accountDAO.findAccountByLogin(account.getLogin()) == null) {
+        if (accountDAO.findAccountByLogin(account.getLogin()) == null) {
             passport.setAccount(account);
             accountDAO.save(account);
             passportDAO.save(passport);
@@ -48,6 +49,7 @@ public class AccountController {
             return "register";
         }
     }
+
     @GetMapping("/update")
     public String updatePage(Model model, HttpServletRequest request) {
         String login = request.getUserPrincipal().getName();
@@ -66,6 +68,6 @@ public class AccountController {
         Account beforeAccount = accountDAO.findAccountByLogin(login);
 
         accountDAO.update(beforeAccount.getId(), account);
-        return "update";
+        return "redirect:/";
     }
 }

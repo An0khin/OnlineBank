@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -9,5 +9,10 @@
 </head>
 <body>
     <p>Hello</p>
+    <a th:href="@{/orderNewDC}">Order new debit card</a>
+    <a th:href="@{/update}">Change account data</a>
+    <div sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
+        <a th:href="@{/register}">Create new account</a>
+    </div>
 </body>
 </html>
