@@ -5,11 +5,14 @@ import com.home.model.AccountDAO;
 import com.home.model.CardDAO;
 import com.home.model.PassportDAO;
 import com.home.model.card.DebitCard;
+import com.home.model.primitive.Flag;
 import com.home.model.primitive.Number;
 import com.home.model.primitive.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +40,7 @@ public class CardController {
         System.out.println("It's time");
         model.asMap().forEach((str, obj) -> System.out.println(str + " --- " + obj));
 
-        return "transfer";
+        return "debitCards/transfer";
     }
 
     @PostMapping("/transfer")
@@ -57,5 +60,27 @@ public class CardController {
 
 
         return "redirect:/";
+    }
+
+    @GetMapping("/orderNewDC")
+    public String createNewDebitCardPage(Model model) {
+        model.addAttribute("agree", new Flag());
+
+        return "debitCards/createNew";
+    }
+
+    @PostMapping("/orderNewDC")
+    public String createNewDebitCard(@ModelAttribute("agree") Flag flag, BindingResult result,
+                                     HttpServletRequest request) {
+        if(flag.getFlag()) {
+            Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+
+            cardDAO.saveDebitCard(new DebitCard(account));
+
+            return "redirect:/";
+        } else {
+            result.addError(new FieldError("agree", "flag", "You haven't read the agreement"));
+            return "debitCards/createNew";
+        }
     }
 }
