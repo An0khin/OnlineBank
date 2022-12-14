@@ -10,9 +10,12 @@
 <body>
     <p>Hello</p>
     <a th:href="@{/orderNewDC}">Order new debit card</a>
+    <br>
     <a th:href="@{/update}">Change account data</a>
     <div sec:authorize="hasAnyRole('ADMIN', 'OWNER')">
         <a th:href="@{/register}">Create new account</a>
     </div>
+    <a th:href="@{/transfer}">Transfer from one debit card to another</a>
+
 </body>
 </html>
