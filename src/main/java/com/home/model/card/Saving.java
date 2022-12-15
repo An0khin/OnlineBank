@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "savings")
-public class Saving {
+public class Saving extends Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

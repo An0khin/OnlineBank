@@ -1,18 +1,23 @@
 package com.home.model;
 
+import com.home.model.card.Card;
 import com.home.model.card.DebitCard;
+import com.home.model.card.Saving;
 import com.home.model.repository.DebitCardRepository;
 import com.home.model.repository.PassportRepository;
+import com.home.model.repository.SavingRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CardDAO {
-    private DebitCardRepository debitCardRepository;
+    private final DebitCardRepository debitCardRepository;
+    private final SavingRepository savingRepository;
 
-    public CardDAO(DebitCardRepository debitCardRepository, PassportRepository passportRepository) {
+    public CardDAO(DebitCardRepository debitCardRepository, SavingRepository savingRepository, PassportRepository passportRepository) {
         this.debitCardRepository = debitCardRepository;
+        this.savingRepository = savingRepository;
 //        debitCardRepository.findAll();
     }
 
@@ -32,15 +37,27 @@ public class CardDAO {
         debitCardRepository.save(card);
     }
 
-    public void transferMoneyFromTo(DebitCard from, DebitCard to, Double money) throws Exception {
-        if(from.getMoney() >= money) {
-            from.setMoney(from.getMoney() - money);
-            to.setMoney(to.getMoney() + money);
+    public void transferMoneyFromTo(Card from, Card to, Double money) {
+        from.transferTo(to, money);
 
-            debitCardRepository.save(from);
-            debitCardRepository.save(to);
-        } else {
-            throw new Exception("Not enough money");
-        }
+        if(from instanceof DebitCard)
+            debitCardRepository.save((DebitCard) from);
+        else if(from instanceof Saving)
+            savingRepository.save((Saving) from);
+
+
+        if(to instanceof DebitCard)
+            debitCardRepository.save((DebitCard) to);
+        else if(to instanceof Saving)
+            savingRepository.save((Saving) to);
+//        if(from.getMoney() >= money) {
+//            from.setMoney(from.getMoney() - money);
+//            to.setMoney(to.getMoney() + money);
+//
+//            debitCardRepository.save(from);
+//            debitCardRepository.save(to);
+//        } else {
+//            throw new Exception("Not enough money");
+//        }
     }
 }

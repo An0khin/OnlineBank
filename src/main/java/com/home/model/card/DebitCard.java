@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "debitCards")
-public class DebitCard {
+public class DebitCard extends Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -31,7 +31,7 @@ public class DebitCard {
     }
 
     public DebitCard(Account account) {
-        this.money = Double.valueOf(0);
+        this.money = 0.;
         this.account = account;
     }
 
