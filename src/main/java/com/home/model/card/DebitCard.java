@@ -46,4 +46,18 @@ public class DebitCard extends Card {
     public void setMoney(Double money) {
         this.money = money;
     }
+
+    @Override
+    public void accrueMoney(Double money) {
+        this.money += money;
+    }
+
+    @Override
+    public boolean takeMoney(Double takingMoney) {
+        if(this.money >= takingMoney) {
+            this.money -= takingMoney;
+            return true;
+        }
+        return false;
+    }
 }

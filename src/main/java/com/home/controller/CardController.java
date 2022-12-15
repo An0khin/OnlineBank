@@ -54,6 +54,8 @@ public class CardController {
         DebitCard from = cardDAO.findById(Integer.valueOf(strings[0]));
         DebitCard to = cardDAO.findById(Integer.valueOf(strings[1]));
 
+        System.out.println(ids + " --- " + number);
+
         cardDAO.transferMoneyFromTo(from, to, number.getNumber().doubleValue());
 
         return "redirect:/";
@@ -78,6 +80,28 @@ public class CardController {
         } else {
             result.addError(new FieldError("agree", "flag", "You haven't read the agreement"));
             return "debitCards/createNew";
+        }
+    }
+
+    @GetMapping("/orderNewS")
+    public String createNewSavingPage(Model model) {
+        model.addAttribute("agree", new Flag());
+
+        return "savings/createNew";
+    }
+
+    @PostMapping("/orderNewS")
+    public String createNewSaving(@ModelAttribute("agree") Flag flag, BindingResult result,
+                                     HttpServletRequest request) {
+        if(flag.getFlag()) {
+            Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+
+            cardDAO.saveSaving(new Saving(account));
+
+            return "redirect:/";
+        } else {
+            result.addError(new FieldError("agree", "flag", "You haven't read the agreement"));
+            return "savings/createNew";
         }
     }
 
@@ -114,13 +138,21 @@ public class CardController {
         String[] strings = ids.getText().split(",");
 
         Saving from = cardDAO.findSavingById(Integer.valueOf(strings[0]));
+        Saving to = cardDAO.findSavingById(Integer.valueOf(strings[1]));
+
+        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/transfer/savingToDebit")
+    public String transferSavingsToDebit(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
+        String[] strings = ids.getText().split(",");
+
+        Saving from = cardDAO.findSavingById(Integer.valueOf(strings[0]));
         DebitCard to = cardDAO.findById(Integer.valueOf(strings[1]));
 
-        try {
-            cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
 
         return "redirect:/";
     }

@@ -70,8 +70,7 @@
     </dependency>
 
 
-
-<!--    Thymeleaf-->
+    <!--    Thymeleaf-->
     <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5 -->
     <dependency>
       <groupId>org.thymeleaf</groupId>

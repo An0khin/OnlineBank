@@ -9,26 +9,32 @@
 </head>
 <body>
     <form th:method="POST">
-        <label for="from">From: </label>
-        <select name="from" id="from" th:field="${ids.text}">
-            <option th:each="saving : ${savings}" th:value="${saving.id}" th:text="${saving.id} + ' ' + ${saving.money}"/>
-        </select>
+        <div th:object="${ids}">
+            <label for="from">From: </label>
+            <select name="from" id="from" th:field="${ids.text}">
+                <option th:each="saving : ${savings}" th:value="${saving.id}" th:text="${saving.id} + ' ' + ${saving.money}"/>
+            </select>
+        </div>
 
         <br>
 
-        <label for="to">To: </label>
-        <select th:if="${toDebitCard} == false" name="to" id="to" th:field="${ids.text}">
-            <option th:each="saving : ${savings}" th:value="${saving.id}" th:text="${saving.id} + ' ' + ${saving.money}"/>
-        </select>
+        <div th:object="${ids}">
+            <label for="to">To: </label>
+            <select th:if="${toDebitCard} == false" name="to" id="to" th:field="${ids.text}">
+                <option th:each="saving : ${savings}" th:value="${saving.id}" th:text="${saving.id} + ' ' + ${saving.money}"/>
+            </select>
 
-        <select th:if="${toDebitCard} == true" name="to" id="to" th:field="${ids.text}">
-            <option th:each="debit : ${debitCards}" th:value="${debit.id}" th:text="${debit.id} + ' ' + ${debit.money}"/>
-        </select>
+            <select th:if="${toDebitCard} == true" name="to" id="to" th:field="${ids.text}">
+                <option th:each="debit : ${debitCards}" th:value="${debit.id}" th:text="${debit.id} + ' ' + ${debit.money}"/>
+            </select>
+        </div>
 
         <br>
 
-        <label for="money">Money: </label>
-        <input type="number" name="money" id="money" th:field="${money.number}">
+        <div th:object="${money}">
+            <label for="money">Money: </label>
+            <input type="number" name="money" id="money" th:field="${money.number}">
+        </div>
 
         <br>
 

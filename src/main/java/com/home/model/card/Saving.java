@@ -30,4 +30,43 @@ public class Saving extends Card {
                 ", account=" + account +
                 '}';
     }
+
+    public Saving() {
+    }
+
+    public Saving(Account account) {
+        this.money = 0.;
+        this.percent = 3.;
+        this.account = account;
+    }
+
+    @Override
+    public void accrueMoney(Double money) {
+        this.money += money;
+    }
+
+    @Override
+    public boolean takeMoney(Double takingMoney) {
+        if(this.money >= takingMoney) {
+            this.money -= takingMoney;
+            return true;
+        }
+        return false;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getMoney() {
+        return money;
+    }
+
+    public void setMoney(Double money) {
+        this.money = money;
+    }
 }

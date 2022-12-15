@@ -43,19 +43,22 @@ public class CardDAO {
     public void saveDebitCard(DebitCard card) {
         debitCardRepository.save(card);
     }
+    public void saveSaving(Saving saving) {
+        savingRepository.save(saving);
+    }
 
     public void transferMoneyFromTo(Card from, Card to, Double money) {
         from.transferTo(to, money);
 
-        if(from instanceof DebitCard)  //Defining repository to save
+        if(from.getClass() == DebitCard.class)  //Defining repository to save
             debitCardRepository.save((DebitCard) from);
-        else if(from instanceof Saving)
+        else if(from.getClass() == Saving.class)
             savingRepository.save((Saving) from);
 
 
-        if(to instanceof DebitCard)
+        if(to.getClass() == DebitCard.class)
             debitCardRepository.save((DebitCard) to);
-        else if(to instanceof Saving)
+        else if(to.getClass() == Saving.class)
             savingRepository.save((Saving) to);
 //        if(from.getMoney() >= money) {
 //            from.setMoney(from.getMoney() - money);
