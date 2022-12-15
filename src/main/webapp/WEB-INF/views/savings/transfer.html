@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Transfer in Savings</title>
+</head>
+<body>
+    <form th:method="POST">
+        <label for="from">From: </label>
+        <select name="from" id="from" th:field="${ids.text}">
+            <option th:each="saving : ${savings}" th:value="${saving.id}" th:text="${saving.id} + ' ' + ${saving.money}"/>
+        </select>
+
+        <br>
+
+        <label for="to">To: </label>
+        <select th:if="${toDebitCard} == false" name="to" id="to" th:field="${ids.text}">
+            <option th:each="saving : ${savings}" th:value="${saving.id}" th:text="${saving.id} + ' ' + ${saving.money}"/>
+        </select>
+
+        <select th:if="${toDebitCard} == true" name="to" id="to" th:field="${ids.text}">
+            <option th:each="debit : ${debitCards}" th:value="${debit.id}" th:text="${debit.id} + ' ' + ${debit.money}"/>
+        </select>
+
+        <br>
+
+        <label for="money">Money: </label>
+        <input type="number" name="money" id="money" th:field="${money.number}">
+
+        <br>
+
+        <input type="submit" value="Transfer">
+    </form>
+</body>
+</html>

@@ -24,6 +24,9 @@ public class CardDAO {
     public DebitCard findById(Integer id) {
         return debitCardRepository.findById(id).orElse(null);
     }
+    public Saving findSavingById(Integer id) {
+        return savingRepository.findById(id).orElse(null);
+    }
 
     public List<DebitCard> findAllDebitCards() {
         return debitCardRepository.findAll();
@@ -33,6 +36,10 @@ public class CardDAO {
         return debitCardRepository.findAllByAccountId(id);
     }
 
+    public List<Saving> findAllSavingsByAccountId(Integer id) {
+        return savingRepository.findAllByAccountId(id);
+    }
+
     public void saveDebitCard(DebitCard card) {
         debitCardRepository.save(card);
     }
@@ -40,7 +47,7 @@ public class CardDAO {
     public void transferMoneyFromTo(Card from, Card to, Double money) {
         from.transferTo(to, money);
 
-        if(from instanceof DebitCard)
+        if(from instanceof DebitCard)  //Defining repository to save
             debitCardRepository.save((DebitCard) from);
         else if(from instanceof Saving)
             savingRepository.save((Saving) from);
