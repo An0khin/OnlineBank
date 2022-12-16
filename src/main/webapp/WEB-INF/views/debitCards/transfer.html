@@ -15,18 +15,25 @@
             <option th:each="debitCard : ${debitCards}" th:value="${debitCard.id}" th:text="${debitCard.id} + ' ' + ${debitCard.money}"/>
         </select>
     </div>
+
     <br>
 
     <div th:object="${ids}">
         <label for="to">To:</label>
-        <input type="text" id="to" th:name="ids" th:field="${ids.text}">
+        <input type="text" id="to" th:name="ids" th:field="${ids.text}" list="debitCards">
     </div>
+
+    <datalist name="debitCards" id="debitCards">
+        <option th:each="debitCard : ${debitCards}" th:value="${debitCard.id}" th:text="${debitCard.id} + ' ' + ${debitCard.money}"/>
+    </datalist>
+
     <br>
 
     <div th:object="${money}">
         <label for="howMuch">Money:</label>
         <input type="number" id="howMuch" th:field="*{number}">
     </div>
+
     <br>
 
     <input type="submit" value="Transfer"/>

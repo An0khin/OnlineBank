@@ -30,7 +30,7 @@ public class CardController {
     @Autowired
     private CardDAO cardDAO;
 
-    @GetMapping("/transfer")
+    @GetMapping("/transfer/debitToDebit")
     public String transferDebitTo(Model model, HttpServletRequest request) {
         Account account =  accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
         cardDAO.findAllDebitCardsByAccountId(account.getId()).forEach(System.out::println);
@@ -45,7 +45,7 @@ public class CardController {
         return "debitCards/transfer";
     }
 
-    @PostMapping("/transfer")
+    @PostMapping("/transfer/debitToDebit")
     public String transferDebitToPost(@ModelAttribute("ids") Text ids,
                                       @ModelAttribute("money") Number number) {
 
@@ -105,44 +105,17 @@ public class CardController {
         }
     }
 
-    @GetMapping("/transfer/savingToSaving")
-    public String transferSavingsToSavingPage(Model model, HttpServletRequest request) {
-        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
-
-        model.addAttribute("savings", cardDAO.findAllSavingsByAccountId(account.getId()));
-        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
-        model.addAttribute("toDebitCard", false);
-
-        model.addAttribute("ids", new Text());
-        model.addAttribute("money", new Number());
-
-        return "savings/transfer";
-    }
-
     @GetMapping("/transfer/savingToDebit")
     public String transferSavingsToDebitPage(Model model, HttpServletRequest request) {
         Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
 
         model.addAttribute("savings", cardDAO.findAllSavingsByAccountId(account.getId()));
         model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
-        model.addAttribute("toDebitCard", true);
 
         model.addAttribute("ids", new Text());
         model.addAttribute("money", new Number());
 
         return "savings/transfer";
-    }
-
-    @PostMapping("/transfer/savingToSaving")
-    public String transferSavings(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
-        String[] strings = ids.getText().split(",");
-
-        Saving from = cardDAO.findSavingById(Integer.valueOf(strings[0]));
-        Saving to = cardDAO.findSavingById(Integer.valueOf(strings[1]));
-
-        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
-
-        return "redirect:/";
     }
 
     @PostMapping("/transfer/savingToDebit")
@@ -151,6 +124,31 @@ public class CardController {
 
         Saving from = cardDAO.findSavingById(Integer.valueOf(strings[0]));
         DebitCard to = cardDAO.findById(Integer.valueOf(strings[1]));
+
+        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/transfer/debitToSaving")
+    public String transferDebitToSavingsPage(Model model, HttpServletRequest request) {
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+
+        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
+        model.addAttribute("savings", cardDAO.findAllSavingsByAccountId(account.getId()));
+
+        model.addAttribute("ids", new Text());
+        model.addAttribute("money", new Number());
+
+        return "debitCards/transferToSaving";
+    }
+
+    @PostMapping("/transfer/debitToSaving")
+    public String transferDebitToSavings(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
+        String[] strings = ids.getText().split(",");
+
+        DebitCard from = cardDAO.findById(Integer.valueOf(strings[0]));
+        Saving to = cardDAO.findSavingById(Integer.valueOf(strings[1]));
 
         cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
 

@@ -17,7 +17,10 @@
     <br>
     <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_OWNER')" th:href="@{/register}">Create new account</a>
     <br sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_OWNER')">
-    <a th:href="@{/transfer}">Transfer from one debit card to another</a>
-
+    <a th:href="@{/transfer/debitToDebit}">Transfer from one debit card to another</a>
+    <br>
+    <a th:href="@{/transfer/debitToSaving}">Transfer from debit card to saving</a>
+    <br>
+    <a th:href="@{/transfer/savingToDebit}">Transfer from saving to debit card</a>
 </body>
 </html>
