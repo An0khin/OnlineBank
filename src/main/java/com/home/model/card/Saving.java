@@ -1,8 +1,11 @@
 package com.home.model.card;
 
 import com.home.model.Account;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "savings")
@@ -16,6 +19,10 @@ public class Saving extends Card {
 
     @Column(nullable = false)
     private Double percent;
+
+    @Column(columnDefinition = "DATE", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
@@ -37,6 +44,7 @@ public class Saving extends Card {
     public Saving(Account account) {
         this.money = 0.;
         this.percent = 3.;
+        this.date = Date.valueOf(LocalDate.now());
         this.account = account;
     }
 

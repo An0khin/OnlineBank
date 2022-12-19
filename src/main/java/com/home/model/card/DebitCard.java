@@ -1,8 +1,11 @@
 package com.home.model.card;
 
 import com.home.model.Account;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.sql.Date;
 
 @Entity
 @Table(name = "debitCards")
@@ -13,6 +16,10 @@ public class DebitCard extends Card {
 
     @Column(nullable = false)
     private Double money;
+
+    @Column(columnDefinition = "DATE", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false, referencedColumnName = "id")
@@ -32,6 +39,7 @@ public class DebitCard extends Card {
 
     public DebitCard(Account account) {
         this.money = 0.;
+        this.date = Date.valueOf(LocalDate.now());
         this.account = account;
     }
 
