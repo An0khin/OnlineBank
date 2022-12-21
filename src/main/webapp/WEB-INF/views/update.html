@@ -10,6 +10,28 @@
 <body>
 <form th:method="UPDATE">
     <div th:object="${account}">
+        <div th:object="${account.passport}">
+            <label for="name">Name:</label>
+            <input type="text" th:field="*{name}" name="name" id="name">
+            <br>
+
+            <label for="surname">Surname:</label>
+            <input type="text" th:field="*{surname}" name="surname" id="surname">
+            <br>
+
+            <label for="dateBirth">Date birth:</label>
+            <input type="date" th:field="*{dateBirth}" name="dateBirth" id="dateBirth">
+            <br>
+
+            <label for="series">Series:</label>
+            <input type="number" th:field="*{series}" id="series" name="series">
+            <br>
+
+            <label for="number">Number:</label>
+            <input type="number" id="number" th:field="*{number}" name="number">
+            <br>
+        </div>
+
         <!--            <div th:if="${#fields.hasErrors('*')}">-->
         <!--                <p th:each="err : ${#fields.errors('*')}" th:text="${err.}"></p>-->
         <!--            </div>-->
@@ -24,17 +46,17 @@
 
         <br>
 
-        <label for="role">Role:</label>
-        <select name="role" id="role" th:field="*{role}">
-            <option value="ADMIN">ADMIN</option>
-            <option value="USER">USER</option>
-        </select>
+<!--        <label for="role">Role:</label>-->
+<!--        <select name="role" id="role" th:field="*{role}">-->
+<!--            <option value="ADMIN">ADMIN</option>-->
+<!--            <option value="USER">USER</option>-->
+<!--        </select>-->
 
         <!--    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
         <!--    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>-->
     </div>
 
-    <input type="submit" value="Create"/>
+    <input type="submit" value="Change"/>
 </form>
 </body>
 </html>

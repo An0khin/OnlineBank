@@ -67,6 +67,10 @@ public class AccountController {
         String login = request.getUserPrincipal().getName();
 
         Account beforeAccount = accountDAO.findAccountByLogin(login);
+        account.setRole(beforeAccount.getRole());
+
+        Passport beforePassport = beforeAccount.getPassport();
+        passportDAO.update(beforePassport.getId(), account.getPassport());
 
         accountDAO.update(beforeAccount.getId(), account);
         return "redirect:/";

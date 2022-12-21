@@ -13,8 +13,14 @@ public class PassportDAO {
         passportRepository.findAll();
     }
 
-    public void update() {
-        passportRepository.findAll();
+    public void update(Integer id, Passport passport) {
+        passportRepository.updateNameAndSurnameAndDateBirthAndSeriesAndNumberById(
+                passport.getName(),
+                passport.getSurname(),
+                passport.getDateBirth(),
+                passport.getSeries(),
+                passport.getNumber(),
+                id);
     }
 
     public void save(Passport passport) {
