@@ -1,6 +1,8 @@
-package com.home.model;
+package com.home.model.service;
 
-import com.home.model.repository.DebitCardRepository;
+import com.home.model.Account;
+import com.home.model.AccountDetails;
+import com.home.model.service.AccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

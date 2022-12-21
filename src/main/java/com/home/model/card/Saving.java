@@ -77,4 +77,12 @@ public class Saving extends Card {
     public void setMoney(Double money) {
         this.money = money;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Double getPercent() {
+        return percent;
+    }
 }

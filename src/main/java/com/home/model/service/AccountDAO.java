@@ -1,5 +1,6 @@
-package com.home.model;
+package com.home.model.service;
 
+import com.home.model.Account;
 import com.home.model.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

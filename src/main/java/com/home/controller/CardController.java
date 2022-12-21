@@ -1,10 +1,9 @@
 package com.home.controller;
 
 import com.home.model.Account;
-import com.home.model.AccountDAO;
-import com.home.model.CardDAO;
-import com.home.model.PassportDAO;
-import com.home.model.card.Card;
+import com.home.model.service.AccountDAO;
+import com.home.model.service.CardDAO;
+import com.home.model.service.PassportDAO;
 import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
 import com.home.model.primitive.Flag;

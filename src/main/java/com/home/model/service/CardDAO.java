@@ -1,4 +1,4 @@
-package com.home.model;
+package com.home.model.service;
 
 import com.home.model.card.Card;
 import com.home.model.card.DebitCard;
@@ -26,6 +26,10 @@ public class CardDAO {
     }
     public Saving findSavingById(Integer id) {
         return savingRepository.findById(id).orElse(null);
+    }
+
+    public List<Saving> findAllSavings() {
+        return savingRepository.findAll();
     }
 
     public List<DebitCard> findAllDebitCards() {
