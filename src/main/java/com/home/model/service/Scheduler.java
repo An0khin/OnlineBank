@@ -1,13 +1,11 @@
 package com.home.model.service;
 
 import com.home.model.card.Saving;
-import com.home.model.repository.SavingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.temporal.TemporalAmount;
 import java.util.List;
 
 @Service
