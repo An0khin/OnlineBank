@@ -18,7 +18,6 @@ public class CardDAO {
     public CardDAO(DebitCardRepository debitCardRepository, SavingRepository savingRepository, PassportRepository passportRepository) {
         this.debitCardRepository = debitCardRepository;
         this.savingRepository = savingRepository;
-//        debitCardRepository.findAll();
     }
 
     public DebitCard findById(Integer id) {
