@@ -30,7 +30,6 @@ public class AccountDAO {
         accountRepository.updateLoginAndPasswordAndRoleById(
                 account.getLogin(),
                 account.getPassword(),
-                account.getRole(),
                 id);
     }
 }

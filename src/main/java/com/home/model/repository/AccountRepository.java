@@ -14,8 +14,8 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     @Transactional
     @Modifying
-    @Query("update accounts a set a.login = ?1, a.password = ?2, a.role = ?3 where a.id = ?4")
-    int updateLoginAndPasswordAndRoleById(String login, String password, String role, Integer id);
+    @Query("update accounts a set a.login = ?1, a.password = ?2 where a.id = ?3")
+    int updateLoginAndPasswordAndRoleById(String login, String password, Integer id);
 
     Optional<Account> findByLogin(String login);
 }
