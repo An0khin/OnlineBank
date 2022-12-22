@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .formLogin(login -> login.permitAll())
                 .logout(out -> out.logoutUrl("/logout").logoutSuccessUrl("/"))
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/register").hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers("/admin/**").hasAnyRole("ADMIN", "OWNER")
                         .anyRequest().authenticated())
                 .rememberMe(remember -> remember.disable())
                 .httpBasic(Customizer.withDefaults())

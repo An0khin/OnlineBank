@@ -13,6 +13,10 @@ public class PassportDAO {
         passportRepository.findAll();
     }
 
+    public Passport findByNameAndSurname(String name, String surname) {
+        return passportRepository.findByNameAndSurname(name, surname).orElse(null);
+    }
+
     public void update(Integer id, Passport passport) {
         passportRepository.updateNameAndSurnameAndDateBirthAndSeriesAndNumberById(
                 passport.getName(),

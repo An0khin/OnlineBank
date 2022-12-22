@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Repository
 public interface PassportRepository extends JpaRepository<Passport, Long> {
@@ -18,4 +19,5 @@ public interface PassportRepository extends JpaRepository<Passport, Long> {
             where p.id = ?6""")
     int updateNameAndSurnameAndDateBirthAndSeriesAndNumberById(String name, String surname, Date dateBirth, Integer series, Integer number, Integer id);
 
+    Optional<Passport> findByNameAndSurname(String name, String surname);
 }

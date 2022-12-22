@@ -75,6 +75,10 @@ public class Passport {
         return number;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

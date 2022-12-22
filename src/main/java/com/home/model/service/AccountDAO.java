@@ -19,6 +19,10 @@ public class AccountDAO {
         return accountRepository.findAll();
     }
 
+    public Account findById(Integer id) {
+        return accountRepository.findById(id).get();
+    }
+
     public void save(Account account) {
         accountRepository.save(account);
     }
