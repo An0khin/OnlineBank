@@ -9,5 +9,16 @@
 </head>
 <body>
     <p th:text="${account.passport.name} + ' ' + ${account.passport.surname}"/>
+    <br>
+    <a th:attr="account = ${account.id}" th:href="@{/admin/change}">Change account data</a>
+    <br>
+    <a>Order new Debit card</a>
+    <br>
+    <a>Order new Saving</a>
+    <br>
+    <a>Order new Credit card</a>
+    <br>
+    <a>Delete</a>
+    <br>
 </body>
 </html>

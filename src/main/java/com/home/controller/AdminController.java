@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -23,6 +27,8 @@ public class AdminController {
 
     @Autowired
     AccountDAO accountDAO;
+
+    Map<Integer, Account> accountMap = new HashMap<>();
 
 
     @GetMapping("/search")
@@ -35,7 +41,8 @@ public class AdminController {
     @PostMapping("/search")
     public String search(@ModelAttribute("name_surname") Text name_surname,
                          BindingResult result,
-                         Model model) {
+                         Model model,
+                         HttpServletRequest request) {
         String[] ns = name_surname.getText().split(",");
 
         Passport passport = passportDAO.findByNameAndSurname(ns[0], ns[1]);
@@ -44,11 +51,32 @@ public class AdminController {
             result.addError(new FieldError("name_surname", "text", "Account with this name and surname doesn't exist"));
             return "admin/search";
         } else {
-            Account account = passport.getAccount();
-            System.out.println(account);
+            Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
+            accountMap.put(id, passport.getAccount());
+//            System.out.println(accountMap.get(id));
 
-            model.addAttribute("account", account);
+            model.addAttribute("account", accountMap.get(id));
             return "admin/facilities";
         }
     }
+
+    @GetMapping("/change")
+    public String changePage(Model model,
+                             HttpServletRequest request) {
+        Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
+        model.addAttribute("account", accountMap.get(id));
+//        System.out.println(accountMap.get(id));
+        return "update";
+    }
+
+    @PostMapping("/change")
+    public String change(@ModelAttribute("account") Account account,
+                         HttpServletRequest request) {
+        Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
+        accountDAO.update(accountMap.get(id).getId(), account);
+        passportDAO.update(accountMap.get(id).getPassport().getId(), account.getPassport());
+
+        return "redirect:/";
+    }
+
 }

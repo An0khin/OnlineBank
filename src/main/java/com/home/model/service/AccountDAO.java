@@ -33,7 +33,7 @@ public class AccountDAO {
     public void update(Integer id, Account account) {
         accountRepository.updateLoginAndPasswordAndRoleById(
                 account.getLogin(),
-                account.getPassword(),
+                account.getPassword().equals("") ? findById(id).getPassword() : account.getPassword(),
                 id);
     }
 }
