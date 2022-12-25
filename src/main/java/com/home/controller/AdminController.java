@@ -2,8 +2,12 @@ package com.home.controller;
 
 import com.home.model.Account;
 import com.home.model.Passport;
+import com.home.model.card.DebitCard;
+import com.home.model.card.Saving;
+import com.home.model.primitive.Flag;
 import com.home.model.primitive.Text;
 import com.home.model.service.AccountDAO;
+import com.home.model.service.CardDAO;
 import com.home.model.service.PassportDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +31,9 @@ public class AdminController {
 
     @Autowired
     AccountDAO accountDAO;
+
+    @Autowired
+    CardDAO cardDAO;
 
     Map<Integer, Account> accountMap = new HashMap<>();
 
@@ -79,4 +86,49 @@ public class AdminController {
         return "redirect:/";
     }
 
+    @GetMapping("/orderNewDC")
+    public String newDCPage(Model model) {
+        model.addAttribute("agree", new Flag());
+
+        return "debitCards/createNew";
+    }
+
+    @PostMapping("/orderNewDC")
+    public String newDC(@ModelAttribute("agree") Flag flag,
+                        BindingResult result,
+                        HttpServletRequest request) {
+        if(flag.getFlag()) {
+            Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
+
+            cardDAO.saveDebitCard(new DebitCard(accountMap.get(id)));
+
+            return "redirect:/";
+        } else {
+            result.addError(new FieldError("agree", "flag", "You haven't read the agreement"));
+            return "debitCards/createNew";
+        }
+    }
+
+    @GetMapping("/orderNewS")
+    public String newSPage(Model model) {
+        model.addAttribute("agree", new Flag());
+
+        return "debitCards/createNew";
+    }
+
+    @PostMapping("/orderNewS")
+    public String newS(@ModelAttribute("agree") Flag flag,
+                        BindingResult result,
+                        HttpServletRequest request) {
+        if(flag.getFlag()) {
+            Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
+
+            cardDAO.saveSaving(new Saving(accountMap.get(id)));
+
+            return "redirect:/";
+        } else {
+            result.addError(new FieldError("agree", "flag", "You haven't read the agreement"));
+            return "debitCards/createNew";
+        }
+    }
 }
