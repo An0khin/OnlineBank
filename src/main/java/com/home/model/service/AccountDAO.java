@@ -19,6 +19,10 @@ public class AccountDAO {
         return accountRepository.findAll();
     }
 
+    public void deleteById(Integer id) {
+        accountRepository.deleteById(id);
+    }
+
     public Account findById(Integer id) {
         return accountRepository.findById(id).get();
     }

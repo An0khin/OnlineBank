@@ -2,6 +2,8 @@ package com.home.controller;
 
 import com.home.model.*;
 import com.home.model.card.DebitCard;
+import com.home.model.primitive.Flag;
+import com.home.model.primitive.Text;
 import com.home.model.repository.AccountRepository;
 import com.home.model.service.AccountDAO;
 import com.home.model.service.CardDAO;
@@ -73,5 +75,35 @@ public class AccountController {
 
         accountDAO.update(beforeAccount.getId(), account);
         return "redirect:/";
+    }
+
+    @GetMapping("/delete")
+    public String deletePage(Model model) {
+        model.addAttribute("agree", new Flag());
+        model.addAttribute("password", new Text());
+
+        return "delete";
+    }
+
+    @PostMapping("/delete")
+    public String delete(@ModelAttribute("agree") Flag agree,
+                         BindingResult resultAgree,
+                         @ModelAttribute("password") Text password,
+                         BindingResult resultPassword,
+                         HttpServletRequest request) {
+        if(agree.getFlag() == false) {
+            resultAgree.addError(new FieldError("agree", "flag", "You need to be sure"));
+
+            return "delete";
+        } else if (!password.getText().equals(accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getPassword())) {
+            resultPassword.addError(new FieldError("password", "text", "Password is incorrect"));
+            System.out.println(accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getPassword());
+
+            return "delete";
+        } else {
+            accountDAO.deleteById(accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId());
+
+            return "redirect:/logout";
+        }
     }
 }
