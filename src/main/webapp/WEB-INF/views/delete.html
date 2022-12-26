@@ -5,6 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/errorStyle.css}">
     <title>Delete</title>
 </head>
 <body>
@@ -12,13 +13,13 @@
         <div th:object="${agree}">
             <label for="agree">Are you sure? </label>
             <input type="checkbox" name="agree" id="agree" th:field="*{flag}">
-            <p style="color:red;" th:if="${#fields.hasErrors('flag')}" th:errors="*{flag}"></p>
+            <p class="error" th:if="${#fields.hasErrors('flag')}" th:errors="*{flag}"></p>
         </div>
 
         <div th:object="${password}">
             <label for="password">Password: </label>
             <input type="password" name="password" id="password" th:field="*{text}">
-            <p style="color:red;" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></p>
+            <p class="error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></p>
         </div>
 
         <input type="submit" value="Delete">

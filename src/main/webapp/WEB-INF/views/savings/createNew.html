@@ -5,6 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/errorStyle.css}">
     <title>New Debit Card</title>
 </head>
 <body>
@@ -13,7 +14,7 @@
     <form th:method="post" th:object="${agree}">
         <label for="agreed">I have read the agreement </label>
         <input type="checkbox" th:field="*{flag}" name="agreed" id="agreed">
-        <div style="color:red;" th:if="${#fields.hasErrors('flag')}" th:errors="*{flag}"/>
+        <div class="error" th:if="${#fields.hasErrors('flag')}" th:errors="*{flag}"/>
         <br>
         <input type="submit" value="Create">
         <br>
