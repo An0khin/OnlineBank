@@ -3,6 +3,8 @@ package com.home.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -13,15 +15,22 @@ public class Passport {
     private Integer id;
 
     @Column(nullable = false)
+    @NotNull(message = "Can't be null")
     private String name;
     @Column(nullable = false)
+    @NotNull(message = "Can't be null")
     private String surname;
     @Column(columnDefinition = "DATE", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Can't be null")
     private Date dateBirth;
     @Column(nullable = false)
+    @NotNull(message = "Can't be null")
+    @Size(max = 4, min = 4)
     private Integer series;
     @Column(nullable = false)
+    @NotNull(message = "Can't be null")
+    @Size(max = 6, min = 6)
     private Integer number;
 
     @OneToOne

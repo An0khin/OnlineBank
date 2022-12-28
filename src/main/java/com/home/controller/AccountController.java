@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 public class AccountController {
@@ -38,19 +39,23 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    public String registerNewAccount(@ModelAttribute("newPassport") Passport passport,
-                                     @ModelAttribute("newAccount") Account account,
+    public String registerNewAccount(@Valid @ModelAttribute("newPassport") Passport passport,
+                                     @Valid @ModelAttribute("newAccount") Account account,
                                      BindingResult result) {
-        if (accountDAO.findAccountByLogin(account.getLogin()) == null) {
-            passport.setAccount(account);
-            accountDAO.save(account);
-            passportDAO.save(passport);
-            cardDAO.saveDebitCard(new DebitCard(account));
-            return "redirect:/";
-        } else {
+        if(result.hasErrors()) {
+            return "register";
+        }
+
+        if (accountDAO.findAccountByLogin(account.getLogin()) != null) {
             result.addError(new FieldError("newAccount", "login", "Account with this login exists"));
             return "register";
         }
+
+        passport.setAccount(account);
+        accountDAO.save(account);
+        passportDAO.save(passport);
+        cardDAO.saveDebitCard(new DebitCard(account));
+        return "redirect:/";
     }
 
     @GetMapping("/update")
@@ -65,7 +70,13 @@ public class AccountController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("account") Account account, HttpServletRequest request) {
+    public String update(@Valid @ModelAttribute("account") Account account,
+                         BindingResult result,
+                         HttpServletRequest request) {
+        if(result.hasErrors()) {
+            return "update";
+        }
+
         String login = request.getUserPrincipal().getName();
 
         Account beforeAccount = accountDAO.findAccountByLogin(login);

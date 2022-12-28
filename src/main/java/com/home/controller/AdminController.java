@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,8 +78,13 @@ public class AdminController {
     }
 
     @PostMapping("/change")
-    public String change(@ModelAttribute("account") Account account,
+    public String change(@Valid @ModelAttribute("account") Account account,
+                         BindingResult result,
                          HttpServletRequest request) {
+        if(result.hasErrors()) {
+            return "update";
+        }
+
         Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
         accountDAO.update(accountMap.get(id).getId(), account);
         passportDAO.update(accountMap.get(id).getPassport().getId(), account.getPassport());

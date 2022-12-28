@@ -9,7 +9,7 @@
     <title>Delete</title>
 </head>
 <body>
-    <form th:method="post">
+    <form th:method="DELETE">
         <div th:object="${agree}">
             <label for="agree">Are you sure? </label>
             <input type="checkbox" name="agree" id="agree" th:field="*{flag}">

@@ -5,6 +5,9 @@ import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Entity(name = "accounts")
@@ -14,10 +17,15 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(nullable = false)
+    @NotNull(message = "Can't be null")
+    @Email(message = "Need to be email")
     private String login;
     @Column(nullable = false)
+    @NotNull(message = "Can't be null")
+    @Min(value = 8, message = "Need to have 8 or more characters")
     private String password;
     @Column(nullable = false)
+    @NotNull(message = "Can't be null")
     private String role;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "account")
