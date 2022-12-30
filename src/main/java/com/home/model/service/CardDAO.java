@@ -1,8 +1,10 @@
 package com.home.model.service;
 
+import com.home.model.CreditRequest;
 import com.home.model.card.Card;
 import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
+import com.home.model.repository.CreditRequestRepository;
 import com.home.model.repository.DebitCardRepository;
 import com.home.model.repository.PassportRepository;
 import com.home.model.repository.SavingRepository;
@@ -15,9 +17,14 @@ public class CardDAO {
     private final DebitCardRepository debitCardRepository;
     private final SavingRepository savingRepository;
 
-    public CardDAO(DebitCardRepository debitCardRepository, SavingRepository savingRepository, PassportRepository passportRepository) {
+    private final CreditRequestRepository creditRequestRepository;
+
+    public CardDAO(DebitCardRepository debitCardRepository,
+                   SavingRepository savingRepository,
+                   CreditRequestRepository creditRequestRepository) {
         this.debitCardRepository = debitCardRepository;
         this.savingRepository = savingRepository;
+        this.creditRequestRepository = creditRequestRepository;
     }
 
     public DebitCard findById(Integer id) {
@@ -48,6 +55,14 @@ public class CardDAO {
     }
     public void saveSaving(Saving saving) {
         savingRepository.save(saving);
+    }
+
+    public void saveCreditRequest(CreditRequest request) {
+        creditRequestRepository.save(request);
+    }
+
+    public List<CreditRequest> findAllCreditRequestsByAccountId(Integer id) {
+        return creditRequestRepository.findAllByBorrowerId(id);
     }
 
     public void transferMoneyFromTo(Card from, Card to, Double money) {

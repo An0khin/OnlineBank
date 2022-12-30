@@ -27,6 +27,7 @@ public class CreditRequest {
     @Column
     private boolean accepted;
 
+    public CreditRequest() {}
 
     public Integer getId() {
         return id;
@@ -50,6 +51,14 @@ public class CreditRequest {
 
     public void setDesiredLimit(Double desiredLimit) {
         this.desiredLimit = desiredLimit;
+    }
+
+    public Double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Double percent) {
+        this.percent = percent;
     }
 
     public Account getCreditor() {

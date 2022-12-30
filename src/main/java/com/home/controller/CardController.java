@@ -1,6 +1,7 @@
 package com.home.controller;
 
 import com.home.model.Account;
+import com.home.model.CreditRequest;
 import com.home.model.service.AccountDAO;
 import com.home.model.service.CardDAO;
 import com.home.model.service.PassportDAO;
@@ -150,6 +151,34 @@ public class CardController {
         Saving to = cardDAO.findSavingById(Integer.valueOf(strings[1]));
 
         cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/allCreditRequests")
+    public String allCreditRequests(Model model,
+                                    HttpServletRequest request) {
+        model.addAttribute("creditRequests", cardDAO.findAllCreditRequestsByAccountId(
+                accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId()));
+
+        return "creditCards/allCreditRequests";
+    }
+
+    @GetMapping("/newCreditRequest")
+    public String newCreditRequestPage(Model model) {
+
+        model.addAttribute("creditRequest", new CreditRequest());
+
+        return "creditCards/newCreditRequest";
+    }
+
+    @PostMapping("/newCreditRequest")
+    public String newCreditRequest(@ModelAttribute("creditRequest") CreditRequest creditRequest,
+                                   HttpServletRequest request) {
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+        creditRequest.setBorrower(account);
+
+        cardDAO.saveCreditRequest(creditRequest);
 
         return "redirect:/";
     }

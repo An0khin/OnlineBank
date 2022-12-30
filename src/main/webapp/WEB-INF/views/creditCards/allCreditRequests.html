@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>All your credit requests</title>
+</head>
+<body>
+    <div>
+        <div th:each="cr : ${creditRequests}">
+            <p th:value="${cr.desiredLimit}">Limit: </p>
+            <p th:value="${cr.percent}">Percent: </p>
+            <p>Accepted: </p>
+            <p th:if="${cr.accepted = true}">&#9989;</p>
+            <p th:if="${cr.accepted = false}">&#10060;</p>
+        </div>
+    </div>
+</body>
+</html>
