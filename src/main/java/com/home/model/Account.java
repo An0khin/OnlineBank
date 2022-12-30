@@ -43,6 +43,12 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.EAGER)
     private Set<Saving> savings;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "borrower", fetch = FetchType.EAGER)
+    private Set<CreditRequest> creditRequests;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creditor", fetch = FetchType.EAGER)
+    private Set<CreditRequest> acceptedCreditRequests;
+
     public Account(String login, String password) {
         this.login = login;
         this.password = password;
