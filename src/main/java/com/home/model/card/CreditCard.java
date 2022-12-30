@@ -8,7 +8,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "creditCards")
-public class CreditCard {
+public class CreditCard extends Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -42,5 +42,37 @@ public class CreditCard {
                 ", percent=" + percent +
                 ", account=" + account +
                 '}';
+    }
+
+    @Override
+    public void accrueMoney(Double money) {
+        if(this.returnMoney <= money)
+            this.returnMoney -= money;
+        else {
+            this.currentMoney += money - this.returnMoney;
+            this.returnMoney = 0.;
+        }
+    }
+
+    @Override
+    public boolean takeMoney(Double takingMoney) {
+        if(this.currentMoney >= takingMoney) {
+            this.currentMoney -= takingMoney;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean takeCreditMoney(Double money) {
+        if(this.moneyLimit >= money) {
+            this.currentMoney += money;
+            this.returnMoney += money + (money * percent / 100);
+
+            return true;
+        }
+
+        return false;
     }
 }
