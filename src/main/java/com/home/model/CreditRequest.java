@@ -18,6 +18,9 @@ public class CreditRequest {
     @Column(name = "limit")
     private Double desiredLimit;
 
+    @Column
+    private Double percent;
+
     @JoinColumn(name = "creditor_id")
     private Account creditor;
 
