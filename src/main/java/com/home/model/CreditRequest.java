@@ -1,5 +1,7 @@
 package com.home.model;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 
 @Entity
@@ -26,6 +28,9 @@ public class CreditRequest {
 
     @Column
     private boolean accepted;
+
+    @Column
+    private boolean viewed;
 
     public CreditRequest() {}
 
@@ -75,5 +80,13 @@ public class CreditRequest {
 
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public boolean isViewed() {
+        return viewed;
+    }
+
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
     }
 }

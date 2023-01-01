@@ -10,11 +10,10 @@
 <body>
     <div>
         <div th:each="cr : ${creditRequests}">
-            <p th:value="${cr.desiredLimit}">Limit: </p>
-            <p th:value="${cr.percent}">Percent: </p>
-            <p>Accepted: </p>
-            <p th:if="${cr.accepted = true}">&#9989;</p>
-            <p th:if="${cr.accepted = false}">&#10060;</p>
+            <p>Limit: <span th:text="${cr.desiredLimit}"/></p>
+            <p>Percent: <span th:text="${cr.percent}"/></p>
+            <p th:if="${cr.viewed}">Accepted: <span th:if="${cr.accepted}">&#9989;</span><span th:if="${not cr.accepted}">&#10060;</span></p>
+            <p th:if="${not cr.viewed}">Viewed: &#10060;</p>
         </div>
     </div>
 </body>
