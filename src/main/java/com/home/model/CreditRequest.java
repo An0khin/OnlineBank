@@ -12,15 +12,15 @@ public class CreditRequest {
 
     @ManyToOne
     @JoinColumn(name = "borrower_id")
-    @Column
     private Account borrower;
 
-    @Column(name = "limit")
+    @Column
     private Double desiredLimit;
 
     @Column
     private Double percent;
 
+    @ManyToOne
     @JoinColumn(name = "creditor_id")
     private Account creditor;
 
