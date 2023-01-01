@@ -6,7 +6,6 @@ import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
 import com.home.model.repository.CreditRequestRepository;
 import com.home.model.repository.DebitCardRepository;
-import com.home.model.repository.PassportRepository;
 import com.home.model.repository.SavingRepository;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +62,23 @@ public class CardDAO {
 
     public List<CreditRequest> findAllCreditRequestsByAccountId(Integer id) {
         return creditRequestRepository.findAllByBorrowerId(id);
+    }
+
+    public CreditRequest findCreditRequestById(Integer id) {
+        return creditRequestRepository.findById(id).orElse(null);
+    }
+
+    public List<CreditRequest> findAllCreditRequests() {
+        return creditRequestRepository.findAll();
+    }
+
+    public void updateCreditRequest(Integer id, CreditRequest creditRequest) {
+        creditRequestRepository.updateDesiredLimitAndPercentAndCreditorAndAcceptedAndViewedById(
+                creditRequest.getDesiredLimit(),
+                creditRequest.getPercent(),
+                creditRequest.getCreditor(),
+                creditRequest.isAccepted(),
+                id);
     }
 
     public void transferMoneyFromTo(Card from, Card to, Double money) {

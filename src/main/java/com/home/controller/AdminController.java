@@ -1,6 +1,7 @@
 package com.home.controller;
 
 import com.home.model.Account;
+import com.home.model.CreditRequest;
 import com.home.model.Passport;
 import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
@@ -14,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -136,5 +134,54 @@ public class AdminController {
             result.addError(new FieldError("agree", "flag", "You haven't read the agreement"));
             return "debitCards/createNew";
         }
+    }
+
+    @GetMapping("/allCreditRequests")
+    public String allCreditRequests(Model model) {
+
+        model.addAttribute("allRequests", cardDAO.findAllCreditRequests());
+
+        return "admin/usersCreditRequests";
+    }
+
+    @GetMapping("/creditRequest")
+    public String creditRequestPage(@RequestParam(name = "requestId") Integer requestId,
+                                    Model model) {
+
+        model.addAttribute("request", cardDAO.findCreditRequestById(requestId));
+
+        return "admin/creditRequest";
+    }
+
+    @PostMapping(value = "/creditRequest", params = "accept")
+    public String creditRequestAccept(@ModelAttribute("request") CreditRequest request,
+                                      @RequestParam("requestId") Integer requestId,
+                                      HttpServletRequest servletRequest) {
+
+        CreditRequest creditRequest = cardDAO.findCreditRequestById(requestId);
+        creditRequest.setDesiredLimit(request.getDesiredLimit());
+        creditRequest.setPercent(request.getPercent());
+        creditRequest.setCreditor(accountDAO.findAccountByLogin(servletRequest.getUserPrincipal().getName()));
+        creditRequest.setAccepted(true);
+
+        cardDAO.updateCreditRequest(requestId, creditRequest);
+
+        return "redirect:/";
+    }
+
+    @PostMapping(value = "/creditRequest", params = "decline")
+    public String creditRequestDecline(@ModelAttribute("request") CreditRequest request,
+                                       @RequestParam("requestId") Integer requestId,
+                                       HttpServletRequest servletRequest) {
+
+        CreditRequest creditRequest = cardDAO.findCreditRequestById(requestId);
+        creditRequest.setDesiredLimit(request.getDesiredLimit());
+        creditRequest.setPercent(request.getPercent());
+        creditRequest.setCreditor(accountDAO.findAccountByLogin(servletRequest.getUserPrincipal().getName()));
+        creditRequest.setAccepted(false);
+
+        cardDAO.updateCreditRequest(requestId, creditRequest);
+
+        return "redirect:/";
     }
 }

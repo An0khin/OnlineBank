@@ -5,7 +5,7 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "creditRequest")
+@Table(name = "creditRequests")
 public class CreditRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,5 +88,18 @@ public class CreditRequest {
 
     public void setViewed(boolean viewed) {
         this.viewed = viewed;
+    }
+
+    @Override
+    public String toString() {
+        return "CreditRequest{" +
+                "id=" + id +
+                ", borrower=" + borrower +
+                ", desiredLimit=" + desiredLimit +
+                ", percent=" + percent +
+                ", creditor=" + creditor +
+                ", accepted=" + accepted +
+                ", viewed=" + viewed +
+                '}';
     }
 }
