@@ -44,6 +44,66 @@ public class CreditCard extends Card {
                 '}';
     }
 
+    public CreditCard(Account account) {
+        this.account = account;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getMoneyLimit() {
+        return moneyLimit;
+    }
+
+    public void setMoneyLimit(Double moneyLimit) {
+        this.moneyLimit = moneyLimit;
+    }
+
+    public Double getReturnMoney() {
+        return returnMoney;
+    }
+
+    public void setReturnMoney(Double returnMoney) {
+        this.returnMoney = returnMoney;
+    }
+
+    public Double getCurrentMoney() {
+        return currentMoney;
+    }
+
+    public void setCurrentMoney(Double currentMoney) {
+        this.currentMoney = currentMoney;
+    }
+
+    public Double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Double percent) {
+        this.percent = percent;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     @Override
     public void accrueMoney(Double money) {
         if(this.returnMoney <= money)

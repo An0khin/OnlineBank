@@ -3,6 +3,7 @@ package com.home.controller;
 import com.home.model.Account;
 import com.home.model.CreditRequest;
 import com.home.model.Passport;
+import com.home.model.card.CreditCard;
 import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
 import com.home.model.primitive.Flag;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -165,6 +168,13 @@ public class AdminController {
         creditRequest.setAccepted(true);
 
         cardDAO.updateCreditRequest(requestId, creditRequest);
+
+        CreditCard creditCard = new CreditCard(creditRequest.getBorrower());
+        creditCard.setDate(Date.valueOf(LocalDate.now()));
+        creditCard.setMoneyLimit(creditRequest.getDesiredLimit());
+        creditCard.setPercent(creditRequest.getPercent());
+
+        cardDAO.saveCreditCard(creditCard);
 
         return "redirect:/";
     }

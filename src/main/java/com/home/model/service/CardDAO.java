@@ -2,8 +2,10 @@ package com.home.model.service;
 
 import com.home.model.CreditRequest;
 import com.home.model.card.Card;
+import com.home.model.card.CreditCard;
 import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
+import com.home.model.repository.CreditCardsRepository;
 import com.home.model.repository.CreditRequestRepository;
 import com.home.model.repository.DebitCardRepository;
 import com.home.model.repository.SavingRepository;
@@ -18,12 +20,16 @@ public class CardDAO {
 
     private final CreditRequestRepository creditRequestRepository;
 
+    private final CreditCardsRepository creditCardsRepository;
+
     public CardDAO(DebitCardRepository debitCardRepository,
                    SavingRepository savingRepository,
-                   CreditRequestRepository creditRequestRepository) {
+                   CreditRequestRepository creditRequestRepository,
+                   CreditCardsRepository creditCardsRepository) {
         this.debitCardRepository = debitCardRepository;
         this.savingRepository = savingRepository;
         this.creditRequestRepository = creditRequestRepository;
+        this.creditCardsRepository = creditCardsRepository;
     }
 
     public DebitCard findById(Integer id) {
@@ -58,6 +64,10 @@ public class CardDAO {
 
     public void saveCreditRequest(CreditRequest request) {
         creditRequestRepository.save(request);
+    }
+
+    public void saveCreditCard(CreditCard creditCard) {
+        creditCardsRepository.save(creditCard);
     }
 
     public List<CreditRequest> findAllCreditRequestsByAccountId(Integer id) {
