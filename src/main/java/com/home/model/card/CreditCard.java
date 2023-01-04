@@ -1,10 +1,12 @@
 package com.home.model.card;
 
 import com.home.model.Account;
+import com.home.model.CreditLoan;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "creditCards")
@@ -29,6 +31,10 @@ public class CreditCard extends Card {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
+    @Column
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creditCard")
+    private Set<CreditLoan> creditLoans;
+
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false, referencedColumnName = "id")
     private Account account;
@@ -42,6 +48,9 @@ public class CreditCard extends Card {
                 ", percent=" + percent +
                 ", account=" + account +
                 '}';
+    }
+
+    public CreditCard() {
     }
 
     public CreditCard(Account account) {

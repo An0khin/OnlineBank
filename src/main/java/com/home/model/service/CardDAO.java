@@ -5,7 +5,7 @@ import com.home.model.card.Card;
 import com.home.model.card.CreditCard;
 import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
-import com.home.model.repository.CreditCardsRepository;
+import com.home.model.repository.CreditCardRepository;
 import com.home.model.repository.CreditRequestRepository;
 import com.home.model.repository.DebitCardRepository;
 import com.home.model.repository.SavingRepository;
@@ -20,16 +20,16 @@ public class CardDAO {
 
     private final CreditRequestRepository creditRequestRepository;
 
-    private final CreditCardsRepository creditCardsRepository;
+    private final CreditCardRepository creditCardRepository;
 
     public CardDAO(DebitCardRepository debitCardRepository,
                    SavingRepository savingRepository,
                    CreditRequestRepository creditRequestRepository,
-                   CreditCardsRepository creditCardsRepository) {
+                   CreditCardRepository creditCardRepository) {
         this.debitCardRepository = debitCardRepository;
         this.savingRepository = savingRepository;
         this.creditRequestRepository = creditRequestRepository;
-        this.creditCardsRepository = creditCardsRepository;
+        this.creditCardRepository = creditCardRepository;
     }
 
     public DebitCard findById(Integer id) {
@@ -67,7 +67,7 @@ public class CardDAO {
     }
 
     public void saveCreditCard(CreditCard creditCard) {
-        creditCardsRepository.save(creditCard);
+        creditCardRepository.save(creditCard);
     }
 
     public List<CreditRequest> findAllCreditRequestsByAccountId(Integer id) {
@@ -96,6 +96,10 @@ public class CardDAO {
 
     public List<CreditRequest> findAllCreditRequests() {
         return creditRequestRepository.findAll();
+    }
+
+    public CreditCard findCreditCardById(Integer id) {
+        return creditCardRepository.findById(id).orElse(null);
     }
 
     public void updateCreditRequest(Integer id, CreditRequest creditRequest) {

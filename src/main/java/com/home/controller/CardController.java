@@ -1,7 +1,9 @@
 package com.home.controller;
 
 import com.home.model.Account;
+import com.home.model.CreditLoan;
 import com.home.model.CreditRequest;
+import com.home.model.card.CreditCard;
 import com.home.model.service.AccountDAO;
 import com.home.model.service.CardDAO;
 import com.home.model.service.PassportDAO;
@@ -10,6 +12,7 @@ import com.home.model.card.Saving;
 import com.home.model.primitive.Flag;
 import com.home.model.primitive.Number;
 import com.home.model.primitive.Text;
+import com.home.model.service.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +32,8 @@ public class CardController {
     private PassportDAO passportDAO;
     @Autowired
     private CardDAO cardDAO;
+    @Autowired
+    private TransactionDAO transactionDAO;
 
     @GetMapping("/transfer/debitToDebit")
     public String transferDebitTo(Model model, HttpServletRequest request) {
@@ -186,4 +191,35 @@ public class CardController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/takeCredit")
+    public String takeCreditPage(Model model,
+                                 HttpServletRequest request) {
+
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+
+        model.addAttribute("creditCards", account.getCreditCards());
+        model.addAttribute("id", new Text());
+        model.addAttribute("money", new Number());
+
+        return "creditCards/takeCredit";
+    }
+
+    @PostMapping("/takeCredit")
+    public String takeCredit(@ModelAttribute("id") Text id,
+                             @ModelAttribute("money") Number money,
+                             BindingResult result) {
+
+        CreditCard creditCard = cardDAO.findCreditCardById(Integer.valueOf(id.getText()));
+
+        if(creditCard.getMoneyLimit() < money.getNumber()) {
+            result.addError(new FieldError("money", "number", "Must be less or equals " + creditCard.getMoneyLimit()));
+            return "creditCards/takeCredit";
+        }
+
+        transactionDAO.saveCreditLoan(new CreditLoan(creditCard, money.getNumber()));
+
+        return "redirect:/";
+    }
+
 }

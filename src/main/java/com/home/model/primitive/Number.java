@@ -1,16 +1,16 @@
 package com.home.model.primitive;
 
 public class Number {
-    private Integer number;
+    private Double number;
 
     public Number() {
     }
 
-    public Integer getNumber() {
+    public Double getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(Double number) {
         this.number = number;
     }
 
