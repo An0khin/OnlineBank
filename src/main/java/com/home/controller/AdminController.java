@@ -142,7 +142,7 @@ public class AdminController {
     @GetMapping("/allCreditRequests")
     public String allCreditRequests(Model model) {
 
-        model.addAttribute("allRequests", cardDAO.findAllCreditRequests());
+        model.addAttribute("allRequests", cardDAO.findNotViewedCreditRequests());
 
         return "admin/usersCreditRequests";
     }

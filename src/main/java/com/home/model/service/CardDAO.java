@@ -74,6 +74,10 @@ public class CardDAO {
         return creditRequestRepository.findAllByBorrowerId(id);
     }
 
+    public List<CreditRequest> findNotViewedCreditRequests() {
+        return creditRequestRepository.findByViewedFalse();
+    }
+
     public List<CreditRequest> findAcceptedCreditRequestsByAccountId(Integer id) {
         return creditRequestRepository.findByViewedTrueAndAcceptedTrueByBorrowerId(id);
     }

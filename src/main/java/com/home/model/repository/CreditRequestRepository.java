@@ -15,6 +15,8 @@ import java.util.List;
 public interface CreditRequestRepository extends JpaRepository<CreditRequest, Integer> {
     List<CreditRequest> findAllByBorrowerId(Integer id);
 
+    List<CreditRequest> findByViewedFalse();
+
     @Modifying
     @Query("""
             update CreditRequest c set c.desiredLimit = ?1, c.percent = ?2, c.creditor = ?3, c.accepted = ?4, c.viewed = TRUE
