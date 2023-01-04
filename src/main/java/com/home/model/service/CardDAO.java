@@ -74,6 +74,18 @@ public class CardDAO {
         return creditRequestRepository.findAllByBorrowerId(id);
     }
 
+    public List<CreditRequest> findAcceptedCreditRequestsByAccountId(Integer id) {
+        return creditRequestRepository.findByViewedTrueAndAcceptedTrueByBorrowerId(id);
+    }
+
+    public List<CreditRequest> findDeclinedCreditRequestsByAccountId(Integer id) {
+        return creditRequestRepository.findByViewedTrueAndAcceptedFalseByBorrowerId(id);
+    }
+
+    public List<CreditRequest> findNotViewedCreditRequestsByAccountId(Integer id) {
+        return creditRequestRepository.findByViewedFalseByBorrowerId(id);
+    }
+
     public CreditRequest findCreditRequestById(Integer id) {
         return creditRequestRepository.findById(id).orElse(null);
     }

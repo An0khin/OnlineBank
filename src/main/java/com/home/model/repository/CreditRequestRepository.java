@@ -20,4 +20,11 @@ public interface CreditRequestRepository extends JpaRepository<CreditRequest, In
             update CreditRequest c set c.desiredLimit = ?1, c.percent = ?2, c.creditor = ?3, c.accepted = ?4, c.viewed = TRUE
             where c.id = ?5""")
     int updateDesiredLimitAndPercentAndCreditorAndAcceptedAndViewedById(Double desiredLimit, Double percent, Account creditor, Boolean accepted, Integer id);
+
+    List<CreditRequest> findByViewedTrueAndAcceptedTrueByBorrowerId(Integer id);
+
+    List<CreditRequest> findByViewedTrueAndAcceptedFalseByBorrowerId(Integer id);
+
+    List<CreditRequest> findByViewedFalseByBorrowerId(Integer id);
+
 }

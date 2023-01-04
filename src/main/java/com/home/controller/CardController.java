@@ -158,8 +158,12 @@ public class CardController {
     @GetMapping("/allCreditRequests")
     public String allCreditRequests(Model model,
                                     HttpServletRequest request) {
-        model.addAttribute("creditRequests", cardDAO.findAllCreditRequestsByAccountId(
-                accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId()));
+
+        Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
+
+        model.addAttribute("accepted", cardDAO.findAcceptedCreditRequestsByAccountId(id));
+        model.addAttribute("declined", cardDAO.findDeclinedCreditRequestsByAccountId(id));
+        model.addAttribute("notViewed", cardDAO.findNotViewedCreditRequestsByAccountId(id));
 
         return "creditCards/allCreditRequests";
     }
