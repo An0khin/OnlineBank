@@ -212,7 +212,7 @@ public class CardController {
 
         CreditCard creditCard = cardDAO.findCreditCardById(Integer.valueOf(id.getText()));
 
-        if(creditCard.getMoneyLimit() < money.getNumber()) {
+        if(!creditCard.takeCreditMoney(money.getNumber())) {
             result.addError(new FieldError("money", "number", "Must be less or equals " + creditCard.getMoneyLimit()));
             return "creditCards/takeCredit";
         }
