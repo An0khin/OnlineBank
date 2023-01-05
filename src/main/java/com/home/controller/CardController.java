@@ -286,6 +286,10 @@ public class CardController {
 
         CreditCard creditCard = cardDAO.findCreditCardById(Integer.valueOf(id.getText()));
 
+        if(transactionDAO.findAllNotClosedCreditLoansByCreditCardId(creditCard.getId()) != 0) {
+            return "creditCards/alreadyHasCredit";
+        }
+
         if(!creditCard.takeCreditMoney(money.getNumber())) {
             result.addError(new FieldError("money", "number", "Must be less or equals " + creditCard.getMoneyLimit()));
             return "creditCards/takeCredit";

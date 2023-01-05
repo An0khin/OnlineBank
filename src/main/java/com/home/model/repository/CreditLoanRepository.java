@@ -19,4 +19,6 @@ public interface CreditLoanRepository extends JpaRepository<CreditLoan, Integer>
     @Query("update CreditLoan c set c.isClosed = ?1 where c.creditCard = ?2")
     int updateIsClosedByCreditCard(Boolean isClosed, CreditCard creditCard);
 
+    long countDistinctByIsClosedFalseAndCreditCard_Id(Integer id);
+
 }

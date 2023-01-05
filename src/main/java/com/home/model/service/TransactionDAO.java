@@ -25,4 +25,8 @@ public class TransactionDAO {
         return creditLoanRepository.findByIsClosedFalse();
     }
 
+    public int findAllNotClosedCreditLoansByCreditCardId(Integer id) {
+        return (int) creditLoanRepository.countDistinctByIsClosedFalseAndCreditCard_Id(id);
+    }
+
 }
