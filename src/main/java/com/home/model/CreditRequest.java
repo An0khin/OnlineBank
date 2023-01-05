@@ -1,7 +1,5 @@
 package com.home.model;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import javax.persistence.*;
 
 @Entity

@@ -1,6 +1,7 @@
 package com.home.controller;
 
-import com.home.model.*;
+import com.home.model.Account;
+import com.home.model.Passport;
 import com.home.model.card.DebitCard;
 import com.home.model.primitive.Flag;
 import com.home.model.primitive.Text;

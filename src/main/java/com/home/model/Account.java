@@ -5,11 +5,10 @@ import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "accounts")
 @Table(name = "accounts")

@@ -1,13 +1,12 @@
 package com.home.model.card;
 
 import com.home.model.Account;
-import com.home.model.CreditLoan;
 import com.home.model.DebitTransaction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
