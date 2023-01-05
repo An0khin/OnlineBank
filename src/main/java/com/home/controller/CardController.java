@@ -209,6 +209,31 @@ public class CardController {
         return "redirect:/";
     }
 
+    @GetMapping("/transfer/creditToDebit")
+    public String transferCreditToDebitPage(Model model, HttpServletRequest request) {
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+
+        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
+        model.addAttribute("credits", cardDAO.findAllCreditCardsByAccountId(account.getId()));
+
+        model.addAttribute("ids", new Text());
+        model.addAttribute("money", new Number());
+
+        return "creditCards/transferToDebit";
+    }
+
+    @PostMapping("/transfer/creditToDebit")
+    public String transferCreditToDebit(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
+        String[] strings = ids.getText().split(",");
+
+        DebitCard to = cardDAO.findById(Integer.valueOf(strings[1]));
+        CreditCard from = cardDAO.findCreditCardById(Integer.valueOf(strings[0]));
+
+        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
+
+        return "redirect:/";
+    }
+
     @GetMapping("/allCreditRequests")
     public String allCreditRequests(Model model,
                                     HttpServletRequest request) {
