@@ -119,12 +119,12 @@ public class CreditCard extends Card {
 
     @Override
     public void accrueMoney(Double money) {
-        if(this.returnMoney <= money)
-            this.returnMoney -= money;
-        else {
-            this.currentMoney += money - this.returnMoney;
-            this.returnMoney = 0.;
-        }
+        this.currentMoney += money;
+
+        double min = Math.min(this.currentMoney, this.returnMoney);
+
+        this.currentMoney -= min;
+        this.returnMoney -= min;
     }
 
     @Override
