@@ -218,6 +218,7 @@ public class CardController {
         }
 
         transactionDAO.saveCreditLoan(new CreditLoan(creditCard, money.getNumber()));
+        cardDAO.saveCreditCard(creditCard);
 
         return "redirect:/";
     }

@@ -170,7 +170,6 @@ public class AdminController {
         cardDAO.updateCreditRequest(requestId, creditRequest);
 
         CreditCard creditCard = new CreditCard(creditRequest.getBorrower());
-        creditCard.setDate(Date.valueOf(LocalDate.now()));
         creditCard.setMoneyLimit(creditRequest.getDesiredLimit());
         creditCard.setPercent(creditRequest.getPercent());
 

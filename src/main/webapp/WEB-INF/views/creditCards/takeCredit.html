@@ -18,7 +18,7 @@
 
         <label for="money">Money to borrow: </label>
         <input type="number" name="money" id="money" th:field="${money.number}" placeholder="Money must be less or equals limit credit card">
-        <div class="error" th:if="${#fields.hasErrors('number')}" th:errors="${money.number}"/>
+        <div class="error" th:if="${#fields.hasErrors('money.number')}" th:errors="${money.number}"/>
 
         <input type="submit" value="Borrow">
     </form>

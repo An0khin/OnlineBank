@@ -71,7 +71,7 @@ public class CardDAO {
     }
 
     public List<CreditRequest> findAllCreditRequestsByAccountId(Integer id) {
-        return creditRequestRepository.findAllByBorrowerId(id);
+        return creditRequestRepository.findAllByBorrower_Id(id);
     }
 
     public List<CreditRequest> findNotViewedCreditRequests() {
@@ -79,15 +79,15 @@ public class CardDAO {
     }
 
     public List<CreditRequest> findAcceptedCreditRequestsByAccountId(Integer id) {
-        return creditRequestRepository.findByViewedTrueAndAcceptedTrueByBorrowerId(id);
+        return creditRequestRepository.findByViewedTrueAndAcceptedTrueAndBorrower_Id(id);
     }
 
     public List<CreditRequest> findDeclinedCreditRequestsByAccountId(Integer id) {
-        return creditRequestRepository.findByViewedTrueAndAcceptedFalseByBorrowerId(id);
+        return creditRequestRepository.findByViewedTrueAndAcceptedFalseAndBorrower_Id(id);
     }
 
     public List<CreditRequest> findNotViewedCreditRequestsByAccountId(Integer id) {
-        return creditRequestRepository.findByViewedFalseByBorrowerId(id);
+        return creditRequestRepository.findByViewedFalseAndBorrower_Id(id);
     }
 
     public CreditRequest findCreditRequestById(Integer id) {

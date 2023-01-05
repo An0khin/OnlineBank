@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -55,6 +56,9 @@ public class CreditCard extends Card {
 
     public CreditCard(Account account) {
         this.account = account;
+        this.date = Date.valueOf(LocalDate.now());
+        this.returnMoney = 0.;
+        this.currentMoney = 0.;
     }
 
     public Integer getId() {

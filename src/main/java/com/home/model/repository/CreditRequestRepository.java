@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface CreditRequestRepository extends JpaRepository<CreditRequest, Integer> {
-    List<CreditRequest> findAllByBorrowerId(Integer id);
+    List<CreditRequest> findAllByBorrower_Id(Integer id);
 
     List<CreditRequest> findByViewedFalse();
 
@@ -23,10 +23,10 @@ public interface CreditRequestRepository extends JpaRepository<CreditRequest, In
             where c.id = ?5""")
     int updateDesiredLimitAndPercentAndCreditorAndAcceptedAndViewedById(Double desiredLimit, Double percent, Account creditor, Boolean accepted, Integer id);
 
-    List<CreditRequest> findByViewedTrueAndAcceptedTrueByBorrowerId(Integer id);
+    List<CreditRequest> findByViewedTrueAndAcceptedTrueAndBorrower_Id(Integer id);
 
-    List<CreditRequest> findByViewedTrueAndAcceptedFalseByBorrowerId(Integer id);
+    List<CreditRequest> findByViewedTrueAndAcceptedFalseAndBorrower_Id(Integer id);
 
-    List<CreditRequest> findByViewedFalseByBorrowerId(Integer id);
+    List<CreditRequest> findByViewedFalseAndBorrower_Id(Integer id);
 
 }

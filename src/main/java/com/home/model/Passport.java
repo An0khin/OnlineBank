@@ -26,11 +26,9 @@ public class Passport {
     private Date dateBirth;
     @Column(nullable = false)
     @NotNull(message = "Can't be null")
-    @Size(max = 4, min = 4)
     private Integer series;
     @Column(nullable = false)
     @NotNull(message = "Can't be null")
-    @Size(max = 6, min = 6)
     private Integer number;
 
     @OneToOne
