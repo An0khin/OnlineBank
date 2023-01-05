@@ -6,6 +6,8 @@ import com.home.model.repository.CreditLoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TransactionDAO {
     @Autowired
@@ -17,6 +19,10 @@ public class TransactionDAO {
 
     public void setClosedToCreditLoanByCreditCard(CreditCard creditCard) {
         creditLoanRepository.updateIsClosedByCreditCard(true, creditCard);
+    }
+
+    public List<CreditLoan> findAllNotClosedCreditLoans() {
+        return creditLoanRepository.findByIsClosedFalse();
     }
 
 }
