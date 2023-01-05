@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Transactions</title>
+</head>
+<body>
+    <p>ADMISSION: </p>
+    <div th:each="transaction : ${admission}">
+        <p th:text="${transaction.to.id} + ' <- ' + ${transaction.from.id} + ' : ' + ${transaction.money} + '$ : ' + ${transaction.date}"/>
+    </div>
+
+    <p>DEDUCTION: </p>
+    <div th:each="transaction : ${deduction}">
+        <p th:text="${transaction.to.id} + ' -> ' + ${transaction.from.id} + ' : ' + ${transaction.money} + '$ : ' + ${transaction.date}"/>
+    </div>
+</body>
+</html>

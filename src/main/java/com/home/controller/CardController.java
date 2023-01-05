@@ -3,6 +3,7 @@ package com.home.controller;
 import com.home.model.Account;
 import com.home.model.CreditLoan;
 import com.home.model.CreditRequest;
+import com.home.model.DebitTransaction;
 import com.home.model.card.CreditCard;
 import com.home.model.service.AccountDAO;
 import com.home.model.service.CardDAO;
@@ -81,7 +82,9 @@ public class CardController {
 
         System.out.println(ids + " --- " + number);
 
-        cardDAO.transferMoneyFromTo(from, to, number.getNumber().doubleValue());
+        if(cardDAO.transferMoneyFromTo(from, to, number.getNumber())) {
+            transactionDAO.saveDebitTransaction(new DebitTransaction(from, to, number.getNumber()));
+        }
 
         return "redirect:/";
     }
@@ -299,6 +302,17 @@ public class CardController {
         cardDAO.saveCreditCard(creditCard);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/debitTransactions")
+    public String debitTransactionsPage(Model model,
+                                        HttpServletRequest request) {
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+
+        model.addAttribute("admission", cardDAO.findAllDebitTransactionsByToCardAccountId(account.getId()));
+        model.addAttribute("deduction", cardDAO.findAllDebitTransactionsByFromCardAccountId(account.getId()));
+
+        return "debitCards/debitTransactions";
     }
 
 }

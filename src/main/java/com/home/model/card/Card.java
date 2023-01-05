@@ -1,10 +1,12 @@
 package com.home.model.card;
 
 public abstract class Card {
-    public void transferTo(Card other, Double otherMoney) {
+    public boolean transferTo(Card other, Double otherMoney) {
         if(takeMoney(otherMoney)) {
             other.accrueMoney(otherMoney);
+            return true;
         }
+        return false;
     }
 
     public abstract void accrueMoney(Double money);

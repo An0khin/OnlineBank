@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity
-@Table
+@Table(name = "creditLoans")
 public class CreditLoan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

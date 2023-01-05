@@ -1,6 +1,7 @@
 package com.home.model.service;
 
 import com.home.model.CreditRequest;
+import com.home.model.DebitTransaction;
 import com.home.model.card.Card;
 import com.home.model.card.CreditCard;
 import com.home.model.card.DebitCard;
@@ -20,16 +21,20 @@ public class CardDAO {
     private final CreditCardRepository creditCardRepository;
     private final CreditLoanRepository creditLoanRepository;
 
+    private final DebitTransactionRepository debitTransactionRepository;
+
     public CardDAO(DebitCardRepository debitCardRepository,
                    SavingRepository savingRepository,
                    CreditRequestRepository creditRequestRepository,
                    CreditCardRepository creditCardRepository,
-                   CreditLoanRepository creditLoanRepository) {
+                   CreditLoanRepository creditLoanRepository,
+                   DebitTransactionRepository debitTransactionRepository) {
         this.debitCardRepository = debitCardRepository;
         this.savingRepository = savingRepository;
         this.creditRequestRepository = creditRequestRepository;
         this.creditCardRepository = creditCardRepository;
         this.creditLoanRepository = creditLoanRepository;
+        this.debitTransactionRepository = debitTransactionRepository;
     }
 
     public DebitCard findById(Integer id) {
@@ -115,35 +120,37 @@ public class CardDAO {
                 id);
     }
 
-    public void transferMoneyFromTo(Card from, Card to, Double money) {
-        from.transferTo(to, money);
+    public boolean transferMoneyFromTo(Card from, Card to, Double money) {
+        if(from.transferTo(to, money)) {
+            if(from.getClass() == DebitCard.class)  //Defining repository to save
+                debitCardRepository.save((DebitCard) from);
+            else if(from.getClass() == Saving.class)
+                savingRepository.save((Saving) from);
+            else if(from.getClass() == CreditCard.class)
+                creditCardRepository.save((CreditCard) from);
 
-        if(from.getClass() == DebitCard.class)  //Defining repository to save
-            debitCardRepository.save((DebitCard) from);
-        else if(from.getClass() == Saving.class)
-            savingRepository.save((Saving) from);
-        else if(from.getClass() == CreditCard.class)
-            creditCardRepository.save((CreditCard) from);
 
+            if(to.getClass() == DebitCard.class)
+                debitCardRepository.save((DebitCard) to);
+            else if(to.getClass() == Saving.class)
+                savingRepository.save((Saving) to);
+            else if(to.getClass() == CreditCard.class)
+                creditCardRepository.save((CreditCard) to);
 
-        if(to.getClass() == DebitCard.class)
-            debitCardRepository.save((DebitCard) to);
-        else if(to.getClass() == Saving.class)
-            savingRepository.save((Saving) to);
-        else if(to.getClass() == CreditCard.class)
-            creditCardRepository.save((CreditCard) to);
-//        if(from.getMoney() >= money) {
-//            from.setMoney(from.getMoney() - money);
-//            to.setMoney(to.getMoney() + money);
-//
-//            debitCardRepository.save(from);
-//            debitCardRepository.save(to);
-//        } else {
-//            throw new Exception("Not enough money");
-//        }
+            return true;
+        }
+        return false;
     }
 
     public List<CreditCard> findAllCreditCardsByAccountId(Integer id) {
         return creditCardRepository.findByAccount_Id(id);
+    }
+
+    public List<DebitTransaction> findAllDebitTransactionsByFromCardAccountId(Integer id) {
+        return debitTransactionRepository.findByFrom_Account_Id(id);
+    }
+
+    public List<DebitTransaction> findAllDebitTransactionsByToCardAccountId(Integer id) {
+        return debitTransactionRepository.findByTo_Account_Id(id);
     }
 }

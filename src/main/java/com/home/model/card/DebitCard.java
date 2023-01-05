@@ -1,11 +1,14 @@
 package com.home.model.card;
 
 import com.home.model.Account;
+import com.home.model.CreditLoan;
+import com.home.model.DebitTransaction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "debitCards")
@@ -24,6 +27,14 @@ public class DebitCard extends Card {
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false, referencedColumnName = "id")
     private Account account;
+
+    @Column
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "from")
+    private Set<DebitTransaction> debitTransactionsFrom;
+
+    @Column
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "to")
+    private Set<DebitTransaction> debitTransactionsTo;
 
     @Override
     public String toString() {

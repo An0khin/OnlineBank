@@ -1,8 +1,10 @@
 package com.home.model.service;
 
 import com.home.model.CreditLoan;
+import com.home.model.DebitTransaction;
 import com.home.model.card.CreditCard;
 import com.home.model.repository.CreditLoanRepository;
+import com.home.model.repository.DebitTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,9 @@ import java.util.List;
 public class TransactionDAO {
     @Autowired
     private CreditLoanRepository creditLoanRepository;
+
+    @Autowired
+    private DebitTransactionRepository debitTransactionRepository;
 
     public void saveCreditLoan(CreditLoan creditLoan) {
         creditLoanRepository.save(creditLoan);
@@ -27,6 +32,10 @@ public class TransactionDAO {
 
     public int findAllNotClosedCreditLoansByCreditCardId(Integer id) {
         return (int) creditLoanRepository.countDistinctByIsClosedFalseAndCreditCard_Id(id);
+    }
+
+    public void saveDebitTransaction(DebitTransaction debitTransaction) {
+        debitTransactionRepository.save(debitTransaction);
     }
 
 }
