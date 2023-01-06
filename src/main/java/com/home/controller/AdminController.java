@@ -209,4 +209,18 @@ public class AdminController {
 
         return "allCards";
     }
+
+    @GetMapping("/allUserCreditRequests")
+    public String allUserCreditRequests(Model model,
+                                        HttpServletRequest request) {
+
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+        Integer id = accountMap.get(account.getId()).getId(); //User's id
+
+        model.addAttribute("accepted", cardDAO.findAcceptedCreditRequestsByAccountId(id));
+        model.addAttribute("declined", cardDAO.findDeclinedCreditRequestsByAccountId(id));
+        model.addAttribute("notViewed", cardDAO.findNotViewedCreditRequestsByAccountId(id));
+
+        return "admin/allUserCreditRequests";
+    }
 }
