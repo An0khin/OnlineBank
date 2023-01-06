@@ -30,7 +30,7 @@ public class CreditLoan {
     private Double money;
 
     @Column
-    private Boolean isClosed;
+    private Boolean closed;
 
     public Integer getId() {
         return id;
@@ -73,11 +73,11 @@ public class CreditLoan {
     }
 
     public Boolean getClosed() {
-        return isClosed;
+        return closed;
     }
 
     public void setClosed(Boolean closed) {
-        isClosed = closed;
+        this.closed = closed;
     }
 
     public CreditLoan() {
@@ -86,7 +86,7 @@ public class CreditLoan {
     public CreditLoan(CreditCard creditCard, Double money) {
         this.creditCard = creditCard;
         this.money = money;
-        this.isClosed = false;
+        this.closed = false;
         this.date = Date.valueOf(LocalDate.now());
     }
 }

@@ -25,15 +25,19 @@ public class TransactionDAO {
     }
 
     public void setClosedToCreditLoanByCreditCard(CreditCard creditCard) {
-        creditLoanRepository.updateWasClosedAndIsClosedByCreditCardAndIsClosedFalse(Date.valueOf(LocalDate.now()), true, creditCard);
+        creditLoanRepository.updateWasClosedAndClosedByCreditCardAndClosedFalse(Date.valueOf(LocalDate.now()), true, creditCard);
     }
 
     public List<CreditLoan> findAllNotClosedCreditLoans() {
-        return creditLoanRepository.findByIsClosedFalse();
+        return creditLoanRepository.findByClosedFalse();
     }
 
     public int findAllNotClosedCreditLoansByCreditCardId(Integer id) {
-        return (int) creditLoanRepository.countDistinctByIsClosedFalseAndCreditCard_Id(id);
+        return (int) creditLoanRepository.countDistinctByClosedFalseAndCreditCard_Id(id);
+    }
+
+    public List<CreditLoan> findAllCreditLoansByAccountId(Integer id) {
+        return creditLoanRepository.findByCreditCard_Account_Id(id);
     }
 
     public void saveDebitTransaction(DebitTransaction debitTransaction) {

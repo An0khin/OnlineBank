@@ -11,6 +11,7 @@ import com.home.model.primitive.Text;
 import com.home.model.service.AccountDAO;
 import com.home.model.service.CardDAO;
 import com.home.model.service.PassportDAO;
+import com.home.model.service.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,9 @@ public class AdminController {
 
     @Autowired
     CardDAO cardDAO;
+
+    @Autowired
+    TransactionDAO transactionDAO;
 
     Map<Integer, Account> accountMap = new HashMap<>();
 
@@ -152,7 +156,10 @@ public class AdminController {
     public String creditRequestPage(@RequestParam(name = "requestId") Integer requestId,
                                     Model model) {
 
-        model.addAttribute("request", cardDAO.findCreditRequestById(requestId));
+        CreditRequest creditRequest = cardDAO.findCreditRequestById(requestId);
+
+        model.addAttribute("request", creditRequest);
+        model.addAttribute("loans", transactionDAO.findAllCreditLoansByAccountId(creditRequest.getBorrower().getId()));
 
         return "admin/creditRequest";
     }

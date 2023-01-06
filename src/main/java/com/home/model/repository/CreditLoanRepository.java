@@ -15,12 +15,14 @@ import java.util.List;
 @Repository
 @Transactional
 public interface CreditLoanRepository extends JpaRepository<CreditLoan, Integer> {
-    List<CreditLoan> findByIsClosedFalse();
+    List<CreditLoan> findByClosedFalse();
 
     @Modifying
-    @Query("update CreditLoan c set c.wasClosed = ?1, c.isClosed = ?2 where c.creditCard = ?3 and c.isClosed = false")
-    int updateWasClosedAndIsClosedByCreditCardAndIsClosedFalse(Date wasClosed, Boolean isClosed, CreditCard creditCard);
+    @Query("update CreditLoan c set c.wasClosed = ?1, c.closed = ?2 where c.creditCard = ?3 and c.closed = false")
+    int updateWasClosedAndClosedByCreditCardAndClosedFalse(Date wasClosed, Boolean closed, CreditCard creditCard);
 
-    long countDistinctByIsClosedFalseAndCreditCard_Id(Integer id);
+    List<CreditLoan> findByCreditCard_Account_Id(Integer id);
+
+    long countDistinctByClosedFalseAndCreditCard_Id(Integer id);
 
 }

@@ -17,6 +17,16 @@
             <p>Number: <span th:text="*{number}"/></p>
         </div>
 
+        <div>
+            <hr>
+            <div th:each="loan : ${loans}">
+                <p><span th:if="${loan.closed}">&#9989;</span><span th:unless="${loan.closed}">&#10060;</span>
+                    <span th:text="${loan.date}"/> <span th:text="${loan.money} + '$'"/> <span th:if="${loan.closed}" th:text="${loan.wasClosed}"/></p>
+            </div>
+            <hr>
+        </div>
+
+
         <label for="money">Desired limit: </label>
         <input type="number" name="money" id="money" th:field="*{desiredLimit}">
         <br>
