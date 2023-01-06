@@ -7,6 +7,7 @@ import com.home.model.card.CreditCard;
 import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
 import com.home.model.primitive.Flag;
+import com.home.model.primitive.Number;
 import com.home.model.primitive.Text;
 import com.home.model.service.AccountDAO;
 import com.home.model.service.CardDAO;
@@ -241,5 +242,34 @@ public class AdminController {
         model.addAttribute("deduction", cardDAO.findAllDebitTransactionsByFromCardAccountId(id));
 
         return "debitCards/debitTransactions";
+    }
+
+    @GetMapping("/orderNewCC")
+    public String orderNewCCPage(Model model) {
+
+        model.addAttribute("limit_percent", new Text());
+
+        return "admin/newCreditCardForUser";
+    }
+
+    @PostMapping("/orderNewCC")
+    public String orderNewCC(@ModelAttribute("limit_percent") Text limitPercent,
+                             HttpServletRequest request) {
+
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+        Account user = accountMap.get(account.getId());
+
+        String[] strings = limitPercent.getText().split(",");
+
+        Double limit = Double.parseDouble(strings[0]);
+        Double percent = Double.parseDouble(strings[1]);
+
+        CreditCard creditCard = new CreditCard(user);
+        creditCard.setMoneyLimit(limit);
+        creditCard.setPercent(percent);
+
+        cardDAO.saveCreditCard(creditCard);
+
+        return "redirect:/";
     }
 }
