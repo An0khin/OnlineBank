@@ -91,6 +91,7 @@ public class AdminController {
         return "redirect:/";
     }
 
+    ////////////////////////////
     @GetMapping("/orderNewDC")
     public String newDCPage(Model model) {
         model.addAttribute("agree", new Flag());
@@ -136,6 +137,8 @@ public class AdminController {
             return "debitCards/createNew";
         }
     }
+
+    ///////////////////////
 
     @GetMapping("/allCreditRequests")
     public String allCreditRequests(Model model) {
@@ -190,5 +193,20 @@ public class AdminController {
         cardDAO.updateCreditRequest(requestId, creditRequest);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/allCards")
+    public String allCardsPage(Model model,
+                               HttpServletRequest request) {
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+        Account user = accountMap.get(account.getId());
+
+        Integer id = user.getId();
+
+        model.addAttribute("debits", cardDAO.findAllDebitCardsByAccountId(id));
+        model.addAttribute("savings", cardDAO.findAllSavingsByAccountId(id));
+        model.addAttribute("credits", cardDAO.findAllCreditCardsByAccountId(id));
+
+        return "allCards";
     }
 }

@@ -10,22 +10,22 @@
 <body>
     <p th:text="${account.passport.name} + ' ' + ${account.passport.surname}"/>
     <br>
-    <a th:attr="account = ${account.id}" th:href="@{/admin/change}">Change account data</a>
+    <a th:href="@{/admin/change}">Change account data</a>
     <br>
 
-    <a th:attr="account = ${account.id}" th:href="@{/admin/cards}">All cards</a>
+    <a th:href="@{/admin/cards}">All cards</a>
     <br>
-    <a th:attr="account = ${account.id}" th:href="@{/admin/history}">Transaction history</a>
-    <br>
-
-    <a th:attr="account = ${account.id}" th:href="@{/admin/newDC}">Order new Debit Card</a>
-    <br>
-    <a th:attr="account = ${account.id}" th:href="@{/admin/newS}">Order new Saving</a>
-    <br>
-    <a th:attr="account = ${account.id}" th:href="@{/admin/newCC}">Order new Credit Card</a>
+    <a th:href="@{/admin/history}">Transaction history</a>
     <br>
 
-    <a th:attr="account = ${account.id}" th:href="@{/admin/delete}">Delete</a>
+    <a th:href="@{/admin/newDC}">Order new Debit Card</a>
+    <br>
+    <a th:href="@{/admin/newS}">Order new Saving</a>
+    <br>
+    <a th:href="@{/admin/newCC}">Order new Credit Card</a>
+    <br>
+
+    <a th:href="@{/admin/delete}">Delete</a>
     <br>
 </body>
 </html>
