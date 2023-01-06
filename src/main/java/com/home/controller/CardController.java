@@ -315,4 +315,16 @@ public class CardController {
         return "debitCards/debitTransactions";
     }
 
+    @GetMapping("/allCards")
+    public String allCardsPage(Model model,
+                               HttpServletRequest request) {
+        Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
+
+        model.addAttribute("debits", cardDAO.findAllDebitCardsByAccountId(id));
+        model.addAttribute("savings", cardDAO.findAllSavingsByAccountId(id));
+        model.addAttribute("credits", cardDAO.findAllCreditCardsByAccountId(id));
+
+        return "allCards";
+    }
+
 }

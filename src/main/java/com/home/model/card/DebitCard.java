@@ -57,12 +57,24 @@ public class DebitCard extends Card {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Double getMoney() {
         return money;
     }
 
     public void setMoney(Double money) {
         this.money = money;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override

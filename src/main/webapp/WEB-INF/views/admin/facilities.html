@@ -12,13 +12,20 @@
     <br>
     <a th:attr="account = ${account.id}" th:href="@{/admin/change}">Change account data</a>
     <br>
-    <a>Order new Debit card</a>
+
+    <a th:attr="account = ${account.id}" th:href="@{/admin/cards}">All cards</a>
     <br>
-    <a>Order new Saving</a>
+    <a th:attr="account = ${account.id}" th:href="@{/admin/history}">Transaction history</a>
     <br>
-    <a>Order new Credit card</a>
+
+    <a th:attr="account = ${account.id}" th:href="@{/admin/newDC}">Order new Debit Card</a>
     <br>
-    <a>Delete</a>
+    <a th:attr="account = ${account.id}" th:href="@{/admin/newS}">Order new Saving</a>
+    <br>
+    <a th:attr="account = ${account.id}" th:href="@{/admin/newCC}">Order new Credit Card</a>
+    <br>
+
+    <a th:attr="account = ${account.id}" th:href="@{/admin/delete}">Delete</a>
     <br>
 </body>
 </html>
