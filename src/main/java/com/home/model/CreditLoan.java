@@ -18,6 +18,10 @@ public class CreditLoan {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
+    @Column(columnDefinition = "DATE")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date wasClosed;
+
     @ManyToOne
     @JoinColumn(name = "creditCard", nullable = false)
     private CreditCard creditCard;
@@ -42,6 +46,14 @@ public class CreditLoan {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Date getWasClosed() {
+        return wasClosed;
+    }
+
+    public void setWasClosed(Date wasClosed) {
+        this.wasClosed = wasClosed;
     }
 
     public CreditCard getCreditCard() {
