@@ -272,4 +272,30 @@ public class AdminController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/delete")
+    public String deletePage(Model model) {
+        model.addAttribute("agree", new Flag());
+
+        return "admin/deleteUser";
+    }
+
+    @PostMapping("/delete")
+    public String delete(@ModelAttribute("agree") Flag agree,
+                         BindingResult result,
+                         HttpServletRequest request) {
+
+        if(agree.getFlag() == false) {
+            result.addError(new FieldError("agree", "flag", "You need to be sure"));
+
+            return "delete";
+        }
+
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+        Integer id = accountMap.get(account.getId()).getId();
+
+        accountDAO.deleteById(id);
+
+        return "redirect:/";
+    }
 }
