@@ -223,4 +223,16 @@ public class AdminController {
 
         return "admin/allUserCreditRequests";
     }
+
+    @GetMapping("/debitHistory")
+    public String debitTransactionsPage(Model model,
+                                        HttpServletRequest request) {
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+        Integer id = accountMap.get(account.getId()).getId();
+
+        model.addAttribute("admission", cardDAO.findAllDebitTransactionsByToCardAccountId(id));
+        model.addAttribute("deduction", cardDAO.findAllDebitTransactionsByFromCardAccountId(id));
+
+        return "debitCards/debitTransactions";
+    }
 }
