@@ -10,19 +10,19 @@
 <body>
     <p>Debit cards: </p>
     <div th:each="dc : ${debits}">
-        <a th:text="${dc.id} + ' ' + ${dc.money} + '$ ' + ${dc.date}"></a>
+        <a th:href="@{/debitCard(id=${cc.id})}" th:text="${dc.id} + ' ' + ${dc.money} + '$ ' + ${dc.date}"></a>
     </div>
     <hr>
 
     <p>Savings: </p>
     <div th:each="s : ${savings}">
-        <a th:text="${s.id} + ' ' + ${s.money} + '$ ' + ${s.percent} + '% ' + ${s.date}"></a>
+        <a th:href="@{/saving(id=${cc.id})}" th:text="${s.id} + ' ' + ${s.money} + '$ ' + ${s.percent} + '% ' + ${s.date}"></a>
     </div>
     <hr>
 
     <p>Credit cards: </p>
     <div th:each="cc : ${credits}">
-        <a th:text="${cc.id} + ' ' + ${cc.currentMoney} + '$ ' + ${cc.percent} + '% ' + ${cc.returnMoney} + '$ ' + ${cc.date}"></a>
+        <a th:href="@{/creditCard(id=${cc.id})}" th:text="${cc.id} + ' ' + ${cc.currentMoney} + '$ ' + ${cc.percent} + '% ' + ${cc.returnMoney} + '$ ' + ${cc.date}"></a>
     </div>
     <hr>
 

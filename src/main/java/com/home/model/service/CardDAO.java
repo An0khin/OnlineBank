@@ -153,4 +153,8 @@ public class CardDAO {
     public List<DebitTransaction> findAllDebitTransactionsByToCardAccountId(Integer id) {
         return debitTransactionRepository.findByTo_Account_Id(id);
     }
+
+    public DebitCard findDebitCardById(Integer id) {
+        return debitCardRepository.findById(id).orElse(null);
+    }
 }

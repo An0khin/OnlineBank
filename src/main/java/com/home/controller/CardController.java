@@ -55,6 +55,22 @@ public class CardController {
         return "creditCards/view";
     }
 
+    @GetMapping("/debitCard")
+    public String viewDebitCard(@RequestParam("id") Integer id,
+                                 Model model) {
+        model.addAttribute("card", cardDAO.findDebitCardById(id));
+
+        return "debitCards/view";
+    }
+
+    @GetMapping("/saving")
+    public String viewSaving(@RequestParam("id") Integer id,
+                                 Model model) {
+        model.addAttribute("card", cardDAO.findSavingById(id));
+
+        return "savings/view";
+    }
+
 
     @GetMapping("/transfer/debitToDebit")
     public String transferDebitTo(Model model, HttpServletRequest request) {
