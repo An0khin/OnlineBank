@@ -16,16 +16,20 @@ public class Passport {
     @Column(nullable = false)
     @NotNull(message = "Can't be null")
     private String name;
+
     @Column(nullable = false)
     @NotNull(message = "Can't be null")
     private String surname;
+
     @Column(columnDefinition = "DATE", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Can't be null")
     private Date dateBirth;
+
     @Column(nullable = false)
     @NotNull(message = "Can't be null")
     private Integer series;
+
     @Column(nullable = false)
     @NotNull(message = "Can't be null")
     private Integer number;
@@ -33,6 +37,17 @@ public class Passport {
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private Account account;
+
+    public Passport() {
+    }
+
+    public Passport(String name, String surname, Date dateBirth, Integer series, Integer number) {
+        this.name = name;
+        this.surname = surname;
+        this.dateBirth = dateBirth;
+        this.series = series;
+        this.number = number;
+    }
 
     @Override
     public String toString() {
@@ -46,63 +61,56 @@ public class Passport {
                 '}';
     }
 
-    public Passport() {
-    }
-
-    public Passport(String name, String surname, Date dateBirth, Integer series, Integer number) {
-        this.name = name;
-        this.surname = surname;
-        this.dateBirth = dateBirth;
-        this.series = series;
-        this.number = number;
-    }
-
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public Date getDateBirth() {
-        return dateBirth;
-    }
-
-    public Integer getSeries() {
-        return series;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
     }
 
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
+    public Date getDateBirth() {
+        return dateBirth;
+    }
+
     public void setDateBirth(Date dateBirth) {
         this.dateBirth = dateBirth;
+    }
+
+    public Integer getSeries() {
+        return series;
     }
 
     public void setSeries(Integer series) {
         this.series = series;
     }
 
+    public Integer getNumber() {
+        return number;
+    }
+
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public Account getAccount() {
+        return account;
     }
 
     public void setAccount(Account account) {

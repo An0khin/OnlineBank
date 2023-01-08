@@ -35,15 +35,6 @@ public class DebitCard extends Card {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "to")
     private Set<DebitTransaction> debitTransactionsTo;
 
-    @Override
-    public String toString() {
-        return "DebitCard{" +
-                "id=" + id +
-                ", money=" + money +
-                ", account=" + account +
-                '}';
-    }
-
     public DebitCard() {
     }
 
@@ -51,6 +42,15 @@ public class DebitCard extends Card {
         this.money = 0.;
         this.date = Date.valueOf(LocalDate.now());
         this.account = account;
+    }
+
+    @Override
+    public String toString() {
+        return "DebitCard{" +
+                "id=" + id +
+                ", money=" + money +
+                ", account=" + account +
+                '}';
     }
 
     public Integer getId() {
@@ -77,6 +77,14 @@ public class DebitCard extends Card {
         this.date = date;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     @Override
     public void accrueMoney(Double money) {
         this.money += money;
@@ -84,7 +92,7 @@ public class DebitCard extends Card {
 
     @Override
     public boolean takeMoney(Double takingMoney) {
-        if(this.money >= takingMoney) {
+        if (this.money >= takingMoney) {
             this.money -= takingMoney;
             return true;
         }

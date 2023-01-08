@@ -40,6 +40,16 @@ public class CreditCard extends Card {
     @JoinColumn(name = "account_id", nullable = false, referencedColumnName = "id")
     private Account account;
 
+    public CreditCard() {
+    }
+
+    public CreditCard(Account account) {
+        this.account = account;
+        this.date = Date.valueOf(LocalDate.now());
+        this.returnMoney = 0.;
+        this.currentMoney = 0.;
+    }
+
     @Override
     public String toString() {
         return "CreditCard{" +
@@ -49,16 +59,6 @@ public class CreditCard extends Card {
                 ", percent=" + percent +
                 ", account=" + account +
                 '}';
-    }
-
-    public CreditCard() {
-    }
-
-    public CreditCard(Account account) {
-        this.account = account;
-        this.date = Date.valueOf(LocalDate.now());
-        this.returnMoney = 0.;
-        this.currentMoney = 0.;
     }
 
     public Integer getId() {
@@ -129,7 +129,7 @@ public class CreditCard extends Card {
 
     @Override
     public boolean takeMoney(Double takingMoney) {
-        if(this.currentMoney >= takingMoney) {
+        if (this.currentMoney >= takingMoney) {
             this.currentMoney -= takingMoney;
 
             return true;
@@ -139,7 +139,7 @@ public class CreditCard extends Card {
     }
 
     public boolean takeCreditMoney(Double money) {
-        if(this.moneyLimit >= money) {
+        if (this.moneyLimit >= money) {
             this.currentMoney += money;
             this.returnMoney += money + (money * percent / 100);
 

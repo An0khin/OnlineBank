@@ -32,6 +32,16 @@ public class CreditLoan {
     @Column
     private Boolean closed;
 
+    public CreditLoan() {
+    }
+
+    public CreditLoan(CreditCard creditCard, Double money) {
+        this.creditCard = creditCard;
+        this.money = money;
+        this.closed = false;
+        this.date = Date.valueOf(LocalDate.now());
+    }
+
     public Integer getId() {
         return id;
     }
@@ -78,15 +88,5 @@ public class CreditLoan {
 
     public void setClosed(Boolean closed) {
         this.closed = closed;
-    }
-
-    public CreditLoan() {
-    }
-
-    public CreditLoan(CreditCard creditCard, Double money) {
-        this.creditCard = creditCard;
-        this.money = money;
-        this.closed = false;
-        this.date = Date.valueOf(LocalDate.now());
     }
 }

@@ -17,12 +17,15 @@ public class DebitTransaction {
     @Column(columnDefinition = "DATE", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
+
     @ManyToOne
     @JoinColumn(name = "from_id", nullable = false)
     private DebitCard from;
+
     @ManyToOne
     @JoinColumn(name = "to_id", nullable = false)
     private DebitCard to;
+
     @Column(nullable = false)
     private Double money;
 

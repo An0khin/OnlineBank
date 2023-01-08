@@ -5,7 +5,6 @@ import com.home.model.Passport;
 import com.home.model.card.DebitCard;
 import com.home.model.primitive.Flag;
 import com.home.model.primitive.Text;
-import com.home.model.repository.AccountRepository;
 import com.home.model.service.AccountDAO;
 import com.home.model.service.CardDAO;
 import com.home.model.service.PassportDAO;
@@ -24,13 +23,11 @@ import javax.validation.Valid;
 @Controller
 public class AccountController {
     @Autowired
-    private AccountDAO accountDAO;
+    AccountDAO accountDAO;
     @Autowired
-    private PassportDAO passportDAO;
+    PassportDAO passportDAO;
     @Autowired
-    private CardDAO cardDAO;
-    @Autowired
-    private AccountRepository accountRepository;
+    CardDAO cardDAO;
 
     @GetMapping("/register")
     public String registerPage(Model model) {
@@ -103,7 +100,7 @@ public class AccountController {
                          @ModelAttribute("password") Text password,
                          BindingResult resultPassword,
                          HttpServletRequest request) {
-        if(agree.getFlag() == false) {
+        if(!agree.getFlag()) {
             resultAgree.addError(new FieldError("agree", "flag", "You need to be sure"));
 
             return "delete";

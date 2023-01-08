@@ -16,16 +16,12 @@ import java.util.List;
 public class TransactionDAO {
     @Autowired
     private CreditLoanRepository creditLoanRepository;
-
     @Autowired
     private DebitTransactionRepository debitTransactionRepository;
 
+    //Credit loan
     public void saveCreditLoan(CreditLoan creditLoan) {
         creditLoanRepository.save(creditLoan);
-    }
-
-    public void setClosedToCreditLoanByCreditCard(CreditCard creditCard) {
-        creditLoanRepository.updateWasClosedAndClosedByCreditCardAndClosedFalse(Date.valueOf(LocalDate.now()), true, creditCard);
     }
 
     public List<CreditLoan> findAllNotClosedCreditLoans() {
@@ -40,6 +36,11 @@ public class TransactionDAO {
         return creditLoanRepository.findByCreditCard_Account_Id(id);
     }
 
+    public void setClosedToCreditLoanByCreditCard(CreditCard creditCard) {
+        creditLoanRepository.updateWasClosedAndClosedByCreditCardAndClosedFalse(Date.valueOf(LocalDate.now()), true, creditCard);
+    }
+
+    //Debit transaction
     public void saveDebitTransaction(DebitTransaction debitTransaction) {
         debitTransactionRepository.save(debitTransaction);
     }

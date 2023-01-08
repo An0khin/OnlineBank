@@ -28,16 +28,6 @@ public class Saving extends Card {
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private Account account;
 
-    @Override
-    public String toString() {
-        return "Saving{" +
-                "id=" + id +
-                ", money=" + money +
-                ", percent=" + percent +
-                ", account=" + account +
-                '}';
-    }
-
     public Saving() {
     }
 
@@ -49,17 +39,13 @@ public class Saving extends Card {
     }
 
     @Override
-    public void accrueMoney(Double money) {
-        this.money += money;
-    }
-
-    @Override
-    public boolean takeMoney(Double takingMoney) {
-        if(this.money >= takingMoney) {
-            this.money -= takingMoney;
-            return true;
-        }
-        return false;
+    public String toString() {
+        return "Saving{" +
+                "id=" + id +
+                ", money=" + money +
+                ", percent=" + percent +
+                ", account=" + account +
+                '}';
     }
 
     public Integer getId() {
@@ -78,11 +64,41 @@ public class Saving extends Card {
         this.money = money;
     }
 
+    public Double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Double percent) {
+        this.percent = percent;
+    }
+
     public Date getDate() {
         return date;
     }
 
-    public Double getPercent() {
-        return percent;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    @Override
+    public void accrueMoney(Double money) {
+        this.money += money;
+    }
+
+    @Override
+    public boolean takeMoney(Double takingMoney) {
+        if (this.money >= takingMoney) {
+            this.money -= takingMoney;
+            return true;
+        }
+        return false;
     }
 }

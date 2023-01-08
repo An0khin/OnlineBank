@@ -11,13 +11,13 @@ import java.util.Date;
 import java.util.Optional;
 
 @Repository
+@Transactional
 public interface PassportRepository extends JpaRepository<Passport, Long> {
-    @Transactional
+    Optional<Passport> findByNameAndSurname(String name, String surname);
+
     @Modifying
     @Query("""
             update Passport p set p.name = ?1, p.surname = ?2, p.dateBirth = ?3, p.series = ?4, p.number = ?5
             where p.id = ?6""")
     int updateNameAndSurnameAndDateBirthAndSeriesAndNumberById(String name, String surname, Date dateBirth, Integer series, Integer number, Integer id);
-
-    Optional<Passport> findByNameAndSurname(String name, String surname);
 }

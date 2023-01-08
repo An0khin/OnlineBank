@@ -37,74 +37,8 @@ public class CardController {
     @Autowired
     private TransactionDAO transactionDAO;
 
-    @GetMapping("/allCreditCards")
-    public String allCreditCardsPage(Model model,
-                                     HttpServletRequest request) {
-        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
 
-        model.addAttribute("creditCards", cardDAO.findCreditCardsByAccountId(account.getId()));
-
-        return "creditCards/allCreditCards";
-    }
-
-    @GetMapping("/creditCard")
-    public String viewCreditCard(@RequestParam("id") Integer id,
-                                 Model model) {
-        model.addAttribute("card", cardDAO.findCreditCardById(id));
-
-        return "creditCards/view";
-    }
-
-    @GetMapping("/debitCard")
-    public String viewDebitCard(@RequestParam("id") Integer id,
-                                 Model model) {
-        model.addAttribute("card", cardDAO.findDebitCardById(id));
-
-        return "debitCards/view";
-    }
-
-    @GetMapping("/saving")
-    public String viewSaving(@RequestParam("id") Integer id,
-                                 Model model) {
-        model.addAttribute("card", cardDAO.findSavingById(id));
-
-        return "savings/view";
-    }
-
-
-    @GetMapping("/transfer/debitToDebit")
-    public String transferDebitTo(Model model, HttpServletRequest request) {
-        Account account =  accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
-        cardDAO.findAllDebitCardsByAccountId(account.getId()).forEach(System.out::println);
-        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
-
-        model.addAttribute("ids", new Text());
-        model.addAttribute("money", new Number());
-
-        System.out.println("It's time");
-        model.asMap().forEach((str, obj) -> System.out.println(str + " --- " + obj));
-
-        return "debitCards/transfer";
-    }
-
-    @PostMapping("/transfer/debitToDebit")
-    public String transferDebitToPost(@ModelAttribute("ids") Text ids,
-                                      @ModelAttribute("money") Number number) {
-
-        String[] strings = ids.getText().split(",");
-
-        DebitCard from = cardDAO.findById(Integer.valueOf(strings[0]));
-        DebitCard to = cardDAO.findById(Integer.valueOf(strings[1]));
-
-        System.out.println(ids + " --- " + number);
-
-        if(cardDAO.transferMoneyFromTo(from, to, number.getNumber())) {
-            transactionDAO.saveDebitTransaction(new DebitTransaction(from, to, number.getNumber()));
-        }
-
-        return "redirect:/";
-    }
-
+//Create new cards
     @GetMapping("/orderNewDC")
     public String createNewDebitCardPage(Model model) {
         model.addAttribute("agree", new Flag());
@@ -136,7 +70,7 @@ public class CardController {
 
     @PostMapping("/orderNewS")
     public String createNewSaving(@ModelAttribute("agree") Flag flag, BindingResult result,
-                                     HttpServletRequest request) {
+                                  HttpServletRequest request) {
         if(flag.getFlag()) {
             Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
 
@@ -147,123 +81,6 @@ public class CardController {
             result.addError(new FieldError("agree", "flag", "You haven't read the agreement"));
             return "savings/createNew";
         }
-    }
-
-    @GetMapping("/transfer/savingToDebit")
-    public String transferSavingsToDebitPage(Model model, HttpServletRequest request) {
-        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
-
-        model.addAttribute("savings", cardDAO.findAllSavingsByAccountId(account.getId()));
-        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
-
-        model.addAttribute("ids", new Text());
-        model.addAttribute("money", new Number());
-
-        return "savings/transfer";
-    }
-
-    @PostMapping("/transfer/savingToDebit")
-    public String transferSavingsToDebit(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
-        String[] strings = ids.getText().split(",");
-
-        Saving from = cardDAO.findSavingById(Integer.valueOf(strings[0]));
-        DebitCard to = cardDAO.findById(Integer.valueOf(strings[1]));
-
-        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/transfer/debitToSaving")
-    public String transferDebitToSavingsPage(Model model, HttpServletRequest request) {
-        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
-
-        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
-        model.addAttribute("savings", cardDAO.findAllSavingsByAccountId(account.getId()));
-
-        model.addAttribute("ids", new Text());
-        model.addAttribute("money", new Number());
-
-        return "debitCards/transferToSaving";
-    }
-
-    @PostMapping("/transfer/debitToSaving")
-    public String transferDebitToSavings(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
-        String[] strings = ids.getText().split(",");
-
-        DebitCard from = cardDAO.findById(Integer.valueOf(strings[0]));
-        Saving to = cardDAO.findSavingById(Integer.valueOf(strings[1]));
-
-        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/transfer/debitToCredit")
-    public String transferDebitToCreditPage(Model model, HttpServletRequest request) {
-        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
-
-        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
-        model.addAttribute("credits", cardDAO.findAllCreditCardsByAccountId(account.getId()));
-
-        model.addAttribute("ids", new Text());
-        model.addAttribute("money", new Number());
-
-        return "debitCards/transferToCredit";
-    }
-
-    @PostMapping("/transfer/debitToCredit")
-    public String transferDebitToCredit(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
-        String[] strings = ids.getText().split(",");
-
-        DebitCard from = cardDAO.findById(Integer.valueOf(strings[0]));
-        CreditCard to = cardDAO.findCreditCardById(Integer.valueOf(strings[1]));
-
-        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
-
-        if(to.getReturnMoney() == 0) {
-            transactionDAO.setClosedToCreditLoanByCreditCard(to);
-        }
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/transfer/creditToDebit")
-    public String transferCreditToDebitPage(Model model, HttpServletRequest request) {
-        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
-
-        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
-        model.addAttribute("credits", cardDAO.findAllCreditCardsByAccountId(account.getId()));
-
-        model.addAttribute("ids", new Text());
-        model.addAttribute("money", new Number());
-
-        return "creditCards/transferToDebit";
-    }
-
-    @PostMapping("/transfer/creditToDebit")
-    public String transferCreditToDebit(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
-        String[] strings = ids.getText().split(",");
-
-        DebitCard to = cardDAO.findById(Integer.valueOf(strings[1]));
-        CreditCard from = cardDAO.findCreditCardById(Integer.valueOf(strings[0]));
-
-        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/allCreditRequests")
-    public String allCreditRequests(Model model,
-                                    HttpServletRequest request) {
-
-        Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
-
-        model.addAttribute("accepted", cardDAO.findAcceptedCreditRequestsByAccountId(id));
-        model.addAttribute("declined", cardDAO.findDeclinedCreditRequestsByAccountId(id));
-        model.addAttribute("notViewed", cardDAO.findNotViewedCreditRequestsByAccountId(id));
-
-        return "creditCards/allCreditRequests";
     }
 
     @GetMapping("/newCreditRequest")
@@ -320,6 +137,42 @@ public class CardController {
         return "redirect:/";
     }
 
+
+//Read the data
+    @GetMapping("/allCreditCards")
+    public String allCreditCardsPage(Model model,
+                                     HttpServletRequest request) {
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+
+        model.addAttribute("creditCards", cardDAO.findAllCreditCardsByAccountId(account.getId()));
+
+        return "creditCards/allCreditCards";
+    }
+
+    @GetMapping("/creditCard")
+    public String viewCreditCard(@RequestParam("id") Integer id,
+                                 Model model) {
+        model.addAttribute("card", cardDAO.findCreditCardById(id));
+
+        return "creditCards/view";
+    }
+
+    @GetMapping("/debitCard")
+    public String viewDebitCard(@RequestParam("id") Integer id,
+                                Model model) {
+        model.addAttribute("card", cardDAO.findDebitCardById(id));
+
+        return "debitCards/view";
+    }
+
+    @GetMapping("/saving")
+    public String viewSaving(@RequestParam("id") Integer id,
+                             Model model) {
+        model.addAttribute("card", cardDAO.findSavingById(id));
+
+        return "savings/view";
+    }
+
     @GetMapping("/debitTransactions")
     public String debitTransactionsPage(Model model,
                                         HttpServletRequest request) {
@@ -343,4 +196,155 @@ public class CardController {
         return "allCards";
     }
 
+    @GetMapping("/allCreditRequests")
+    public String allCreditRequests(Model model,
+                                    HttpServletRequest request) {
+
+        Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
+
+        model.addAttribute("accepted", cardDAO.findAcceptedCreditRequestsByAccountId(id));
+        model.addAttribute("declined", cardDAO.findDeclinedCreditRequestsByAccountId(id));
+        model.addAttribute("notViewed", cardDAO.findNotViewedCreditRequestsByAccountId(id));
+
+        return "creditCards/allCreditRequests";
+    }
+
+
+//Transfers between cards
+    @GetMapping("/transfer/debitToDebit")
+    public String transferDebitTo(Model model, HttpServletRequest request) {
+        Account account =  accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+        cardDAO.findAllDebitCardsByAccountId(account.getId()).forEach(System.out::println);
+        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
+
+        model.addAttribute("ids", new Text());
+        model.addAttribute("money", new Number());
+
+        System.out.println("It's time");
+        model.asMap().forEach((str, obj) -> System.out.println(str + " --- " + obj));
+
+        return "debitCards/transfer";
+    }
+
+    @PostMapping("/transfer/debitToDebit")
+    public String transferDebitToPost(@ModelAttribute("ids") Text ids,
+                                      @ModelAttribute("money") Number number) {
+
+        String[] strings = ids.getText().split(",");
+
+        DebitCard from = cardDAO.findDebitCardById(Integer.valueOf(strings[0]));
+        DebitCard to = cardDAO.findDebitCardById(Integer.valueOf(strings[1]));
+
+        System.out.println(ids + " --- " + number);
+
+        if(cardDAO.transferMoneyFromTo(from, to, number.getNumber())) {
+            transactionDAO.saveDebitTransaction(new DebitTransaction(from, to, number.getNumber()));
+        }
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/transfer/savingToDebit")
+    public String transferSavingsToDebitPage(Model model, HttpServletRequest request) {
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+
+        model.addAttribute("savings", cardDAO.findAllSavingsByAccountId(account.getId()));
+        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
+
+        model.addAttribute("ids", new Text());
+        model.addAttribute("money", new Number());
+
+        return "savings/transfer";
+    }
+
+    @PostMapping("/transfer/savingToDebit")
+    public String transferSavingsToDebit(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
+        String[] strings = ids.getText().split(",");
+
+        Saving from = cardDAO.findSavingById(Integer.valueOf(strings[0]));
+        DebitCard to = cardDAO.findDebitCardById(Integer.valueOf(strings[1]));
+
+        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/transfer/debitToSaving")
+    public String transferDebitToSavingsPage(Model model, HttpServletRequest request) {
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+
+        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
+        model.addAttribute("savings", cardDAO.findAllSavingsByAccountId(account.getId()));
+
+        model.addAttribute("ids", new Text());
+        model.addAttribute("money", new Number());
+
+        return "debitCards/transferToSaving";
+    }
+
+    @PostMapping("/transfer/debitToSaving")
+    public String transferDebitToSavings(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
+        String[] strings = ids.getText().split(",");
+
+        DebitCard from = cardDAO.findDebitCardById(Integer.valueOf(strings[0]));
+        Saving to = cardDAO.findSavingById(Integer.valueOf(strings[1]));
+
+        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/transfer/debitToCredit")
+    public String transferDebitToCreditPage(Model model, HttpServletRequest request) {
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+
+        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
+        model.addAttribute("credits", cardDAO.findAllCreditCardsByAccountId(account.getId()));
+
+        model.addAttribute("ids", new Text());
+        model.addAttribute("money", new Number());
+
+        return "debitCards/transferToCredit";
+    }
+
+    @PostMapping("/transfer/debitToCredit")
+    public String transferDebitToCredit(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
+        String[] strings = ids.getText().split(",");
+
+        DebitCard from = cardDAO.findDebitCardById(Integer.valueOf(strings[0]));
+        CreditCard to = cardDAO.findCreditCardById(Integer.valueOf(strings[1]));
+
+        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
+
+        if(to.getReturnMoney() == 0) {
+            transactionDAO.setClosedToCreditLoanByCreditCard(to);
+        }
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/transfer/creditToDebit")
+    public String transferCreditToDebitPage(Model model, HttpServletRequest request) {
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+
+        model.addAttribute("debitCards", cardDAO.findAllDebitCardsByAccountId(account.getId()));
+        model.addAttribute("credits", cardDAO.findAllCreditCardsByAccountId(account.getId()));
+
+        model.addAttribute("ids", new Text());
+        model.addAttribute("money", new Number());
+
+        return "creditCards/transferToDebit";
+    }
+
+    @PostMapping("/transfer/creditToDebit")
+    public String transferCreditToDebit(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
+        String[] strings = ids.getText().split(",");
+
+        DebitCard to = cardDAO.findDebitCardById(Integer.valueOf(strings[1]));
+        CreditCard from = cardDAO.findCreditCardById(Integer.valueOf(strings[0]));
+
+        cardDAO.transferMoneyFromTo(from, to, money.getNumber().doubleValue());
+
+        return "redirect:/";
+    }
 }

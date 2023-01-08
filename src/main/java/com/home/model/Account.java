@@ -7,7 +7,6 @@ import com.home.model.card.Saving;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "accounts")
@@ -31,9 +30,6 @@ public class Account {
     private Passport passport;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.EAGER)
-    private Set<Phone> phones;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.EAGER)
     private Set<DebitCard> debitCards;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.EAGER)
@@ -48,59 +44,92 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "creditor", fetch = FetchType.EAGER)
     private Set<CreditRequest> acceptedCreditRequests;
 
+    public Account() {
+    }
+
     public Account(String login, String password) {
         this.login = login;
         this.password = password;
     }
 
-    public Account() {}
-
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getLogin() {
         return login;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public Passport getPassport() {
-        return passport;
-    }
-
-    public Set<DebitCard> getDebitCards() {
-        return new HashSet<>(debitCards);
-    }
-
-    public Set<CreditCard> getCreditCards() {
-        return new HashSet<>(creditCards);
-    }
-
-    public Set<Saving> getSavings() {
-        return new HashSet<>(savings);
-    }
-
-    public String getRole() {
-        return role;
-    }
-
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
     public void setRole(String role) {
         this.role = role;
     }
 
+    public Passport getPassport() {
+        return passport;
+    }
+
     public void setPassport(Passport passport) {
         this.passport = passport;
+    }
+
+    public Set<DebitCard> getDebitCards() {
+        return debitCards;
+    }
+
+    public void setDebitCards(Set<DebitCard> debitCards) {
+        this.debitCards = debitCards;
+    }
+
+    public Set<CreditCard> getCreditCards() {
+        return creditCards;
+    }
+
+    public void setCreditCards(Set<CreditCard> creditCards) {
+        this.creditCards = creditCards;
+    }
+
+    public Set<Saving> getSavings() {
+        return savings;
+    }
+
+    public void setSavings(Set<Saving> savings) {
+        this.savings = savings;
+    }
+
+    public Set<CreditRequest> getCreditRequests() {
+        return creditRequests;
+    }
+
+    public void setCreditRequests(Set<CreditRequest> creditRequests) {
+        this.creditRequests = creditRequests;
+    }
+
+    public Set<CreditRequest> getAcceptedCreditRequests() {
+        return acceptedCreditRequests;
+    }
+
+    public void setAcceptedCreditRequests(Set<CreditRequest> acceptedCreditRequests) {
+        this.acceptedCreditRequests = acceptedCreditRequests;
     }
 
     @Override

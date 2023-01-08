@@ -10,8 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AccountDetails implements UserDetails {
-    private Account account;
-    private PasswordEncoder passwordEncoder; //DELETE AFTER
+    private final Account account;
+    private final PasswordEncoder passwordEncoder;
 
     public AccountDetails(final Account account, final PasswordEncoder passwordEncoder) {
         this.account = account;
@@ -20,9 +20,9 @@ public class AccountDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<SimpleGrantedAuthority> set = new HashSet<>(); //CHANGE!!!!!
+        Set<SimpleGrantedAuthority> set = new HashSet<>();
         set.add(new SimpleGrantedAuthority("ROLE_" + account.getRole()));
-        return set;
+        return Set.copyOf(set);
     }
 
     @Override

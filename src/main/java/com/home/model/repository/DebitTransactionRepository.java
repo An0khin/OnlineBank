@@ -10,10 +10,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface DebitTransactionRepository extends JpaRepository<DebitTransaction, Integer> {
-
     List<DebitTransaction> findByFrom_Account_Id(Integer id);
 
     List<DebitTransaction> findByTo_Account_Id(Integer id);
-
-
 }

@@ -28,74 +28,46 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
-    PassportDAO passportDAO;
-
-    @Autowired
     AccountDAO accountDAO;
-
+    @Autowired
+    PassportDAO passportDAO;
     @Autowired
     CardDAO cardDAO;
-
     @Autowired
     TransactionDAO transactionDAO;
+    private Map<Integer, Account> accountMap = new HashMap<>();
 
-    Map<Integer, Account> accountMap = new HashMap<>();
 
+//Create new cards
+    @GetMapping("/orderNewCC")
+    public String orderNewCCPage(Model model) {
 
-    @GetMapping("/search")
-    public String searchPage(Model model) {
-        model.addAttribute("name_surname", new Text());
+        model.addAttribute("limit_percent", new Text());
 
-        return "admin/search";
+        return "admin/newCreditCardForUser";
     }
 
-    @PostMapping("/search")
-    public String search(@ModelAttribute("name_surname") Text name_surname,
-                         BindingResult result,
-                         Model model,
-                         HttpServletRequest request) {
-        String[] ns = name_surname.getText().split(",");
-
-        Passport passport = passportDAO.findByNameAndSurname(ns[0], ns[1]);
-
-        if(passport == null) {
-            result.addError(new FieldError("name_surname", "text", "Account with this name and surname doesn't exist"));
-            return "admin/search";
-        } else {
-            Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
-            accountMap.put(id, passport.getAccount());
-//            System.out.println(accountMap.get(id));
-
-            model.addAttribute("account", accountMap.get(id));
-            return "admin/facilities";
-        }
-    }
-
-    @GetMapping("/change")
-    public String changePage(Model model,
+    @PostMapping("/orderNewCC")
+    public String orderNewCC(@ModelAttribute("limit_percent") Text limitPercent,
                              HttpServletRequest request) {
-        Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
-        model.addAttribute("account", accountMap.get(id));
-//        System.out.println(accountMap.get(id));
-        return "update";
-    }
 
-    @PostMapping("/change")
-    public String change(@Valid @ModelAttribute("account") Account account,
-                         BindingResult result,
-                         HttpServletRequest request) {
-        if(result.hasErrors()) {
-            return "update";
-        }
+        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
+        Account user = accountMap.get(account.getId());
 
-        Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
-        accountDAO.update(accountMap.get(id).getId(), account);
-        passportDAO.update(accountMap.get(id).getPassport().getId(), account.getPassport());
+        String[] strings = limitPercent.getText().split(",");
+
+        Double limit = Double.parseDouble(strings[0]);
+        Double percent = Double.parseDouble(strings[1]);
+
+        CreditCard creditCard = new CreditCard(user);
+        creditCard.setMoneyLimit(limit);
+        creditCard.setPercent(percent);
+
+        cardDAO.saveCreditCard(creditCard);
 
         return "redirect:/";
     }
 
-    ////////////////////////////
     @GetMapping("/orderNewDC")
     public String newDCPage(Model model) {
         model.addAttribute("agree", new Flag());
@@ -128,8 +100,8 @@ public class AdminController {
 
     @PostMapping("/orderNewS")
     public String newS(@ModelAttribute("agree") Flag flag,
-                        BindingResult result,
-                        HttpServletRequest request) {
+                       BindingResult result,
+                       HttpServletRequest request) {
         if(flag.getFlag()) {
             Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
 
@@ -142,19 +114,11 @@ public class AdminController {
         }
     }
 
-    ///////////////////////
 
-    @GetMapping("/allCreditRequests")
-    public String allCreditRequests(Model model) {
-
-        model.addAttribute("allRequests", cardDAO.findNotViewedCreditRequests());
-
-        return "admin/usersCreditRequests";
-    }
-
+//Create new credit request
     @GetMapping("/creditRequest")
     public String creditRequestPage(@RequestParam(name = "requestId") Integer requestId,
-                                    Model model) {
+                                Model model) {
 
         CreditRequest creditRequest = cardDAO.findCreditRequestById(requestId);
 
@@ -202,6 +166,44 @@ public class AdminController {
         return "redirect:/";
     }
 
+
+//Read the data
+    @GetMapping("/search")
+    public String searchPage(Model model) {
+        model.addAttribute("name_surname", new Text());
+
+        return "admin/search";
+    }
+
+    @PostMapping("/search")
+    public String search(@ModelAttribute("name_surname") Text name_surname,
+                         BindingResult result,
+                         Model model,
+                         HttpServletRequest request) {
+        String[] ns = name_surname.getText().split(",");
+
+        Passport passport = passportDAO.findByNameAndSurname(ns[0], ns[1]);
+
+        if(passport == null) {
+            result.addError(new FieldError("name_surname", "text", "Account with this name and surname doesn't exist"));
+            return "admin/search";
+        } else {
+            Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
+            accountMap.put(id, passport.getAccount());
+
+            model.addAttribute("account", accountMap.get(id));
+            return "admin/facilities";
+        }
+    }
+
+    @GetMapping("/allCreditRequests")
+    public String allCreditRequests(Model model) {
+
+        model.addAttribute("allRequests", cardDAO.findNotViewedCreditRequests());
+
+        return "admin/usersCreditRequests";
+    }
+
     @GetMapping("/allCards")
     public String allCardsPage(Model model,
                                HttpServletRequest request) {
@@ -243,35 +245,32 @@ public class AdminController {
         return "debitCards/debitTransactions";
     }
 
-    @GetMapping("/orderNewCC")
-    public String orderNewCCPage(Model model) {
 
-        model.addAttribute("limit_percent", new Text());
-
-        return "admin/newCreditCardForUser";
+//Update the data
+    @GetMapping("/change")
+    public String changePage(Model model,
+                             HttpServletRequest request) {
+        Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
+        model.addAttribute("account", accountMap.get(id));
+        return "update";
     }
 
-    @PostMapping("/orderNewCC")
-    public String orderNewCC(@ModelAttribute("limit_percent") Text limitPercent,
-                             HttpServletRequest request) {
+    @PostMapping("/change")
+    public String change(@Valid @ModelAttribute("account") Account account,
+                         BindingResult result,
+                         HttpServletRequest request) {
+        if(result.hasErrors()) {
+            return "update";
+        }
 
-        Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
-        Account user = accountMap.get(account.getId());
-
-        String[] strings = limitPercent.getText().split(",");
-
-        Double limit = Double.parseDouble(strings[0]);
-        Double percent = Double.parseDouble(strings[1]);
-
-        CreditCard creditCard = new CreditCard(user);
-        creditCard.setMoneyLimit(limit);
-        creditCard.setPercent(percent);
-
-        cardDAO.saveCreditCard(creditCard);
+        Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
+        accountDAO.update(accountMap.get(id).getId(), account);
+        passportDAO.update(accountMap.get(id).getPassport().getId(), account.getPassport());
 
         return "redirect:/";
     }
 
+//Delete account
     @GetMapping("/delete")
     public String deletePage(Model model) {
         model.addAttribute("agree", new Flag());

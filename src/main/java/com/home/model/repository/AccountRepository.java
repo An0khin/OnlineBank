@@ -10,12 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
+@Transactional
 public interface AccountRepository extends JpaRepository<Account, Integer> {
+    Optional<Account> findByLogin(String login);
 
-    @Transactional
     @Modifying
     @Query("update accounts a set a.login = ?1, a.password = ?2 where a.id = ?3")
     int updateLoginAndPasswordAndRoleById(String login, String password, Integer id);
-
-    Optional<Account> findByLogin(String login);
 }
