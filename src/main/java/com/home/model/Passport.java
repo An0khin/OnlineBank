@@ -2,8 +2,8 @@ package com.home.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -21,7 +21,7 @@ public class Passport {
     @NotNull(message = "Can't be null")
     private String surname;
 
-    @Column(columnDefinition = "DATE", nullable = false)
+    @Column(name = "datebirth", columnDefinition = "DATE", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Can't be null")
     private Date dateBirth;

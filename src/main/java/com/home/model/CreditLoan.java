@@ -3,7 +3,7 @@ package com.home.model;
 import com.home.model.card.CreditCard;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
 

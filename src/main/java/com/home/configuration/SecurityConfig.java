@@ -1,4 +1,4 @@
-package com.home.configuration.security;
+package com.home.configuration;
 
 import com.home.dao.DebitCardRepository;
 import org.springframework.context.annotation.Bean;

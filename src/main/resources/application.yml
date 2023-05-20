@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: OnlineBank
+  datasource:
+    url: jdbc:postgresql://localhost:5432/onlinebank
+    password: postgres
+    username: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: POSTGRESQL
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+server:
+  port: 8080

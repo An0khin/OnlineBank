@@ -1,9 +1,9 @@
 package com.home.model.card;
 
 import com.home.model.Account;
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
 

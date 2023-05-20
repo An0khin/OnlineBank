@@ -4,7 +4,7 @@ import com.home.model.Account;
 import com.home.model.CreditLoan;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Set;
