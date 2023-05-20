@@ -39,14 +39,14 @@ public class CardController {
 
 
 //Create new cards
-    @GetMapping("/orderNewDC")
+    @GetMapping("/order_new_debit")
     public String createNewDebitCardPage(Model model) {
         model.addAttribute("agree", new Flag());
 
         return "debitCards/createNew";
     }
 
-    @PostMapping("/orderNewDC")
+    @PostMapping("/order_new_debit")
     public String createNewDebitCard(@ModelAttribute("agree") Flag flag, BindingResult result,
                                      HttpServletRequest request) {
         if(flag.getFlag()) {
@@ -61,14 +61,14 @@ public class CardController {
         }
     }
 
-    @GetMapping("/orderNewS")
+    @GetMapping("/order_new_saving")
     public String createNewSavingPage(Model model) {
         model.addAttribute("agree", new Flag());
 
         return "savings/createNew";
     }
 
-    @PostMapping("/orderNewS")
+    @PostMapping("/order_new_saving")
     public String createNewSaving(@ModelAttribute("agree") Flag flag, BindingResult result,
                                   HttpServletRequest request) {
         if(flag.getFlag()) {
@@ -83,7 +83,7 @@ public class CardController {
         }
     }
 
-    @GetMapping("/newCreditRequest")
+    @GetMapping("/new_credit_request")
     public String newCreditRequestPage(Model model) {
 
         model.addAttribute("creditRequest", new CreditRequest());
@@ -91,7 +91,7 @@ public class CardController {
         return "creditCards/newCreditRequest";
     }
 
-    @PostMapping("/newCreditRequest")
+    @PostMapping("/new_credit_request")
     public String newCreditRequest(@ModelAttribute("creditRequest") CreditRequest creditRequest,
                                    HttpServletRequest request) {
         Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
@@ -102,7 +102,7 @@ public class CardController {
         return "redirect:/";
     }
 
-    @GetMapping("/takeCredit")
+    @GetMapping("/take_credit")
     public String takeCreditPage(Model model,
                                  HttpServletRequest request) {
 
@@ -115,7 +115,7 @@ public class CardController {
         return "creditCards/takeCredit";
     }
 
-    @PostMapping("/takeCredit")
+    @PostMapping("/take_credit")
     public String takeCredit(@ModelAttribute("id") Text id,
                              @ModelAttribute("money") Number money,
                              BindingResult result) {
@@ -139,7 +139,7 @@ public class CardController {
 
 
 //Read the data
-    @GetMapping("/allCreditCards")
+    @GetMapping("/all_credit_cards")
     public String allCreditCardsPage(Model model,
                                      HttpServletRequest request) {
         Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
@@ -149,7 +149,7 @@ public class CardController {
         return "creditCards/allCreditCards";
     }
 
-    @GetMapping("/creditCard")
+    @GetMapping("/credit_card")
     public String viewCreditCard(@RequestParam("id") Integer id,
                                  Model model) {
         model.addAttribute("card", cardDAO.findCreditCardById(id));
@@ -157,7 +157,7 @@ public class CardController {
         return "creditCards/view";
     }
 
-    @GetMapping("/debitCard")
+    @GetMapping("/debit_card")
     public String viewDebitCard(@RequestParam("id") Integer id,
                                 Model model) {
         model.addAttribute("card", cardDAO.findDebitCardById(id));
@@ -173,7 +173,7 @@ public class CardController {
         return "savings/view";
     }
 
-    @GetMapping("/debitTransactions")
+    @GetMapping("/debit_transactions")
     public String debitTransactionsPage(Model model,
                                         HttpServletRequest request) {
         Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
@@ -184,7 +184,7 @@ public class CardController {
         return "debitCards/debitTransactions";
     }
 
-    @GetMapping("/allCards")
+    @GetMapping("/all_cards")
     public String allCardsPage(Model model,
                                HttpServletRequest request) {
         Integer id = accountDAO.findAccountByLogin(request.getUserPrincipal().getName()).getId();
@@ -196,7 +196,7 @@ public class CardController {
         return "allCards";
     }
 
-    @GetMapping("/allCreditRequests")
+    @GetMapping("/all_credit_requests")
     public String allCreditRequests(Model model,
                                     HttpServletRequest request) {
 
@@ -211,7 +211,7 @@ public class CardController {
 
 
 //Transfers between cards
-    @GetMapping("/transfer/debitToDebit")
+    @GetMapping("/transfer/debit_to_debit")
     public String transferDebitTo(Model model, HttpServletRequest request) {
         Account account =  accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
         cardDAO.findAllDebitCardsByAccountId(account.getId()).forEach(System.out::println);
@@ -226,7 +226,7 @@ public class CardController {
         return "debitCards/transfer";
     }
 
-    @PostMapping("/transfer/debitToDebit")
+    @PostMapping("/transfer/debit_to_debit")
     public String transferDebitToPost(@ModelAttribute("ids") Text ids,
                                       @ModelAttribute("money") Number number) {
 
@@ -244,7 +244,7 @@ public class CardController {
         return "redirect:/";
     }
 
-    @GetMapping("/transfer/savingToDebit")
+    @GetMapping("/transfer/saving_to_debit")
     public String transferSavingsToDebitPage(Model model, HttpServletRequest request) {
         Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
 
@@ -257,7 +257,7 @@ public class CardController {
         return "savings/transfer";
     }
 
-    @PostMapping("/transfer/savingToDebit")
+    @PostMapping("/transfer/saving_to_debit")
     public String transferSavingsToDebit(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
         String[] strings = ids.getText().split(",");
 
@@ -269,7 +269,7 @@ public class CardController {
         return "redirect:/";
     }
 
-    @GetMapping("/transfer/debitToSaving")
+    @GetMapping("/transfer/debit_to_saving")
     public String transferDebitToSavingsPage(Model model, HttpServletRequest request) {
         Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
 
@@ -282,7 +282,7 @@ public class CardController {
         return "debitCards/transferToSaving";
     }
 
-    @PostMapping("/transfer/debitToSaving")
+    @PostMapping("/transfer/debit_to_saving")
     public String transferDebitToSavings(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
         String[] strings = ids.getText().split(",");
 
@@ -294,7 +294,7 @@ public class CardController {
         return "redirect:/";
     }
 
-    @GetMapping("/transfer/debitToCredit")
+    @GetMapping("/transfer/debit_to_credit")
     public String transferDebitToCreditPage(Model model, HttpServletRequest request) {
         Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
 
@@ -307,7 +307,7 @@ public class CardController {
         return "debitCards/transferToCredit";
     }
 
-    @PostMapping("/transfer/debitToCredit")
+    @PostMapping("/transfer/debit_to_credit")
     public String transferDebitToCredit(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
         String[] strings = ids.getText().split(",");
 
@@ -323,7 +323,7 @@ public class CardController {
         return "redirect:/";
     }
 
-    @GetMapping("/transfer/creditToDebit")
+    @GetMapping("/transfer/credit_to_debit")
     public String transferCreditToDebitPage(Model model, HttpServletRequest request) {
         Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
 
@@ -336,7 +336,7 @@ public class CardController {
         return "creditCards/transferToDebit";
     }
 
-    @PostMapping("/transfer/creditToDebit")
+    @PostMapping("/transfer/credit_to_debit")
     public String transferCreditToDebit(@ModelAttribute("ids") Text ids, @ModelAttribute("money") Number money) {
         String[] strings = ids.getText().split(",");
 

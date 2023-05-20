@@ -10,7 +10,7 @@
 <body>
     <p>Debit cards: </p>
     <div th:each="dc : ${debits}">
-        <a th:href="@{/debitCard(id=${cc.id})}" th:text="${dc.id} + ' ' + ${dc.money} + '$ ' + ${dc.date}"></a>
+        <a th:href="@{/debit_card(id=${cc.id})}" th:text="${dc.id} + ' ' + ${dc.money} + '$ ' + ${dc.date}"></a>
     </div>
     <hr>
 
@@ -22,7 +22,7 @@
 
     <p>Credit cards: </p>
     <div th:each="cc : ${credits}">
-        <a th:href="@{/creditCard(id=${cc.id})}" th:text="${cc.id} + ' ' + ${cc.currentMoney} + '$ ' + ${cc.percent} + '% ' + ${cc.returnMoney} + '$ ' + ${cc.date}"></a>
+        <a th:href="@{/credit_card(id=${cc.id})}" th:text="${cc.id} + ' ' + ${cc.currentMoney} + '$ ' + ${cc.percent} + '% ' + ${cc.returnMoney} + '$ ' + ${cc.date}"></a>
     </div>
     <hr>
 

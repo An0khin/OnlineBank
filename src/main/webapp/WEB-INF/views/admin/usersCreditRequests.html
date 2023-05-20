@@ -9,9 +9,9 @@
 </head>
 <body>
     <div th:each="request : ${allRequests}">
-        <a th:href="@{/admin/creditRequest(requestId=${request.id})}" th:text="${request.id}"></a>
-        <a th:href="@{/admin/creditRequest(requestId=${request.id})}" th:text="${request.desiredLimit}"></a>
-        <a th:href="@{/admin/creditRequest(requestId=${request.id})}" th:text="${request.percent}"></a>
+        <a th:href="@{/admin/credit_request(requestId=${request.id})}" th:text="${request.id}"></a>
+        <a th:href="@{/admin/credit_request(requestId=${request.id})}" th:text="${request.desiredLimit}"></a>
+        <a th:href="@{/admin/credit_request(requestId=${request.id})}" th:text="${request.percent}"></a>
     </div>
 </body>
 </html>

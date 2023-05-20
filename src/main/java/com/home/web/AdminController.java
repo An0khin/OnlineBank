@@ -39,7 +39,7 @@ public class AdminController {
 
 
 //Create new cards
-    @GetMapping("/orderNewCC")
+    @GetMapping("/order_new_credit")
     public String orderNewCCPage(Model model) {
 
         model.addAttribute("limit_percent", new Text());
@@ -47,7 +47,7 @@ public class AdminController {
         return "admin/newCreditCardForUser";
     }
 
-    @PostMapping("/orderNewCC")
+    @PostMapping("/order_new_credit")
     public String orderNewCC(@ModelAttribute("limit_percent") Text limitPercent,
                              HttpServletRequest request) {
 
@@ -68,14 +68,14 @@ public class AdminController {
         return "redirect:/";
     }
 
-    @GetMapping("/orderNewDC")
+    @GetMapping("/order_new_debit")
     public String newDCPage(Model model) {
         model.addAttribute("agree", new Flag());
 
         return "debitCards/createNew";
     }
 
-    @PostMapping("/orderNewDC")
+    @PostMapping("/order_new_debit")
     public String newDC(@ModelAttribute("agree") Flag flag,
                         BindingResult result,
                         HttpServletRequest request) {
@@ -91,14 +91,14 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/orderNewS")
+    @GetMapping("/order_new_saving")
     public String newSPage(Model model) {
         model.addAttribute("agree", new Flag());
 
         return "debitCards/createNew";
     }
 
-    @PostMapping("/orderNewS")
+    @PostMapping("/order_new_saving")
     public String newS(@ModelAttribute("agree") Flag flag,
                        BindingResult result,
                        HttpServletRequest request) {
@@ -116,7 +116,7 @@ public class AdminController {
 
 
 //Create new credit request
-    @GetMapping("/creditRequest")
+    @GetMapping("/credit_request")
     public String creditRequestPage(@RequestParam(name = "requestId") Integer requestId,
                                 Model model) {
 
@@ -128,7 +128,7 @@ public class AdminController {
         return "admin/creditRequest";
     }
 
-    @PostMapping(value = "/creditRequest", params = "accept")
+    @PostMapping(value = "/credit_request", params = "accept")
     public String creditRequestAccept(@ModelAttribute("request") CreditRequest request,
                                       @RequestParam("requestId") Integer requestId,
                                       HttpServletRequest servletRequest) {
@@ -150,7 +150,7 @@ public class AdminController {
         return "redirect:/";
     }
 
-    @PostMapping(value = "/creditRequest", params = "decline")
+    @PostMapping(value = "/credit_request", params = "decline")
     public String creditRequestDecline(@ModelAttribute("request") CreditRequest request,
                                        @RequestParam("requestId") Integer requestId,
                                        HttpServletRequest servletRequest) {
@@ -196,7 +196,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/allCreditRequests")
+    @GetMapping("/all_credit_requests")
     public String allCreditRequests(Model model) {
 
         model.addAttribute("allRequests", cardDAO.findNotViewedCreditRequests());
@@ -204,7 +204,7 @@ public class AdminController {
         return "admin/usersCreditRequests";
     }
 
-    @GetMapping("/allCards")
+    @GetMapping("/all_cards")
     public String allCardsPage(Model model,
                                HttpServletRequest request) {
         Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());
@@ -219,7 +219,7 @@ public class AdminController {
         return "allCards";
     }
 
-    @GetMapping("/allUserCreditRequests")
+    @GetMapping("/all_user_credit_requests")
     public String allUserCreditRequests(Model model,
                                         HttpServletRequest request) {
 
@@ -233,7 +233,7 @@ public class AdminController {
         return "admin/allUserCreditRequests";
     }
 
-    @GetMapping("/debitHistory")
+    @GetMapping("/debit_history")
     public String debitTransactionsPage(Model model,
                                         HttpServletRequest request) {
         Account account = accountDAO.findAccountByLogin(request.getUserPrincipal().getName());

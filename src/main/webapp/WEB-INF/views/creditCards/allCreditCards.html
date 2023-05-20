@@ -9,9 +9,9 @@
 </head>
 <body>
     <div th:each="cc : ${creditCards}">
-        <a th:href="@{/creditCard(id=${cc.id})}" th:text="${cc.id}"></a>
-        <a th:href="@{/creditCard(id=${cc.id})}" th:text="${cc.returnMoney}"></a>
-        <a th:href="@{/creditCard(id=${cc.id})}" th:text="${cc.currentMoney}"></a>
+        <a th:href="@{/credit_card(id=${cc.id})}" th:text="${cc.id}"></a>
+        <a th:href="@{/credit_card(id=${cc.id})}" th:text="${cc.returnMoney}"></a>
+        <a th:href="@{/credit_card(id=${cc.id})}" th:text="${cc.currentMoney}"></a>
     </div>
 </body>
 </html>
