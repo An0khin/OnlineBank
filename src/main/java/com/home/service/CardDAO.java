@@ -1,4 +1,4 @@
-package com.home.model.service;
+package com.home.service;
 
 import com.home.model.CreditRequest;
 import com.home.model.DebitTransaction;
@@ -6,7 +6,7 @@ import com.home.model.card.Card;
 import com.home.model.card.CreditCard;
 import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
-import com.home.model.repository.*;
+import com.home.dao.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

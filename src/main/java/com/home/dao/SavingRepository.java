@@ -1,4 +1,4 @@
-package com.home.model.repository;
+package com.home.dao;
 
 import com.home.model.card.Saving;
 import org.springframework.data.jpa.repository.JpaRepository;

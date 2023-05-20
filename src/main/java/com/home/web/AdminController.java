@@ -1,4 +1,4 @@
-package com.home.controller;
+package com.home.web;
 
 import com.home.model.Account;
 import com.home.model.CreditRequest;
@@ -8,10 +8,10 @@ import com.home.model.card.DebitCard;
 import com.home.model.card.Saving;
 import com.home.model.primitive.Flag;
 import com.home.model.primitive.Text;
-import com.home.model.service.AccountDAO;
-import com.home.model.service.CardDAO;
-import com.home.model.service.PassportDAO;
-import com.home.model.service.TransactionDAO;
+import com.home.service.AccountDAO;
+import com.home.service.CardDAO;
+import com.home.service.PassportDAO;
+import com.home.service.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

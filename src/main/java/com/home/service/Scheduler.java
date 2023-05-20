@@ -1,4 +1,4 @@
-package com.home.model.service;
+package com.home.service;
 
 import com.home.model.CreditLoan;
 import com.home.model.card.Saving;

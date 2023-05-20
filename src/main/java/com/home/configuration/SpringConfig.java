@@ -1,6 +1,6 @@
-package com.home.config;
+package com.home.configuration;
 
-import com.home.security.SecurityConfig;
+import com.home.configuration.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @EnableWebMvc
 @EnableScheduling
 @ComponentScan("com.home")
-@Import({SecurityConfig.class, JpaConfig.class})
+@Import({JpaConfig.class, SecurityConfig.class})
 public class SpringConfig implements WebMvcConfigurer {
     @Autowired
     ApplicationContext applicationContext;

@@ -1,4 +1,4 @@
-package com.home.model.repository;
+package com.home.dao;
 
 
 import com.home.model.CreditLoan;

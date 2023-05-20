@@ -1,10 +1,10 @@
-package com.home.model.service;
+package com.home.service;
 
 import com.home.model.CreditLoan;
 import com.home.model.DebitTransaction;
 import com.home.model.card.CreditCard;
-import com.home.model.repository.CreditLoanRepository;
-import com.home.model.repository.DebitTransactionRepository;
+import com.home.dao.CreditLoanRepository;
+import com.home.dao.DebitTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

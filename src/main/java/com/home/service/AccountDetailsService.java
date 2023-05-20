@@ -1,4 +1,4 @@
-package com.home.model.service;
+package com.home.service;
 
 import com.home.model.Account;
 import com.home.model.AccountDetails;

@@ -1,7 +1,7 @@
-package com.home.model.service;
+package com.home.service;
 
 import com.home.model.Passport;
-import com.home.model.repository.PassportRepository;
+import com.home.dao.PassportRepository;
 import org.springframework.stereotype.Service;
 
 @Service

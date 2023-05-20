@@ -1,4 +1,4 @@
-package com.home.config;
+package com.home.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.home.model.repository")
+@EnableJpaRepositories(basePackages = "com.home.dao")
 @EnableTransactionManagement
 public class JpaConfig {
     @Bean
@@ -55,7 +55,7 @@ public class JpaConfig {
         dataSource.setUrl("jdbc:postgresql://localhost:5432/onlinebank");
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("1234");
+        dataSource.setPassword("postgres");
 
         return dataSource;
     }

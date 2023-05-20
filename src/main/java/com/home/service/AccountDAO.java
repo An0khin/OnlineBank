@@ -1,7 +1,7 @@
-package com.home.model.service;
+package com.home.service;
 
 import com.home.model.Account;
-import com.home.model.repository.AccountRepository;
+import com.home.dao.AccountRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
