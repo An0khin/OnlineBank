@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Credit request</title>
 </head>
 <body>
@@ -18,22 +18,22 @@
         </div>
 
         <div>
-            <hr>
+            <hr/>
             <div th:each="loan : ${loans}">
                 <p><span th:if="${loan.closed}">&#9989;</span><span th:unless="${loan.closed}">&#10060;</span>
                     <span th:text="${loan.date}"/> <span th:text="${loan.money} + '$'"/> <span th:if="${loan.closed}" th:text="${loan.wasClosed}"/></p>
             </div>
-            <hr>
+            <hr/>
         </div>
 
 
         <label for="money">Desired limit: </label>
         <input type="number" name="money" id="money" th:field="*{desiredLimit}">
-        <br>
+        <br/>
 
         <label for="percent">Desired percent: </label>
         <input type="number" name="percent" id="percent" th:field="*{percent}" placeholder="From 1% to 50%">
-        <br>
+        <br/>
 
         <input type="submit" name="accept" value="Accept">
         <input type="submit" name="decline" value="Decline">

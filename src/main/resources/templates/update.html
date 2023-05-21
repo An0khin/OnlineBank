@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Document</title>
 </head>
 <body>
@@ -13,23 +13,23 @@
         <div th:object="${account.passport}">
             <label for="name">Name:</label>
             <input type="text" th:field="*{name}" name="name" id="name">
-            <br>
+            <br/>
 
             <label for="surname">Surname:</label>
             <input type="text" th:field="*{surname}" name="surname" id="surname">
-            <br>
+            <br/>
 
             <label for="dateBirth">Date birth:</label>
             <input type="date" th:field="*{dateBirth}" name="dateBirth" id="dateBirth">
-            <br>
+            <br/>
 
             <label for="series">Series:</label>
             <input type="number" th:field="*{series}" id="series" name="series">
-            <br>
+            <br/>
 
             <label for="number">Number:</label>
             <input type="number" id="number" th:field="*{number}" name="number">
-            <br>
+            <br/>
         </div>
 
         <!--            <div th:if="${#fields.hasErrors('*')}">-->
@@ -39,12 +39,12 @@
         <label for="login">Login:</label>
         <input type="email" th:field="*{login}" id="login" name="login">
 
-        <br>
+        <br/>
 
         <label for="password">Password:</label>
         <input type="password" th:field="*{password}" id="password" name="password">
 
-        <br>
+        <br/>
 
 <!--        <label for="role">Role:</label>-->
 <!--        <select name="role" id="role" th:field="*{role}">-->
